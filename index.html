@@ -11,19 +11,32 @@
   <!-- Background particle canvas -->
   <canvas id="bg-particles"></canvas>
 
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div id="screen-splash" class="screen active">
+    <div class="splash-content">
+      <div class="splash-logo" id="splash-logo">LEWIS GAMES</div>
+      <div class="splash-tm">INC.</div>
+      <div class="splash-tap">TAP TO START</div>
+    </div>
+  </div>
+
   <!-- ===== TITLE SCREEN ===== -->
-  <div id="screen-title" class="screen active">
+  <div id="screen-title" class="screen">
     <div class="title-content">
       <div class="title-logo">
         <div class="title-icon" style="font-size:2rem;color:#ffcc00">[ + ]</div>
         <h1 class="title-text">Maths<br><span>Quest</span></h1>
       </div>
-      <p class="title-subtitle">Explore worlds. Solve times tables. Collect treasures.</p>
       <button id="btn-start" class="btn-primary btn-glow">Start Adventure</button>
+      <div class="insert-coin">INSERT COIN</div>
       <div class="title-features">
         <div class="feature"><span class="feature-icon" style="color:#ff6688">&lt;*&gt;</span> Design Your Character</div>
-        <div class="feature"><span class="feature-icon" style="color:#66aaff">[8]</span> 8 Unique Worlds</div>
+        <div class="feature"><span class="feature-icon" style="color:#66aaff">[10]</span> 10 Unique Worlds</div>
         <div class="feature"><span class="feature-icon" style="color:#ffcc00">x=?</span> Solve Times Tables</div>
+      </div>
+      <div class="high-scores" id="high-scores">
+        <div class="hs-title">HIGH SCORES</div>
+        <div id="hs-list"></div>
       </div>
     </div>
   </div>
@@ -93,11 +106,22 @@
           <span class="hud-label">Found</span>
           <span id="game-found" class="hud-value">0/8</span>
         </div>
+        <div class="hud-stat">
+          <span class="hud-label">Coins</span>
+          <span id="game-coins" class="hud-value">0</span>
+        </div>
       </div>
       <div class="hud-right">
 
         <button id="btn-game-back" class="btn-hud" title="Back to worlds">&#x2190;</button>
       </div>
+    </div>
+
+    <!-- Level Intro Splash -->
+    <div id="level-intro" class="level-intro hidden">
+      <div id="level-intro-world" class="li-world"></div>
+      <div id="level-intro-name" class="li-name"></div>
+      <div id="level-intro-ready" class="li-ready"></div>
     </div>
 
     <div id="game-world" class="game-world">
@@ -146,8 +170,9 @@
         <div class="stat-row total"><span>Score</span><span id="stat-score">0</span></div>
       </div>
       <div class="complete-buttons">
-        <button id="btn-next-world" class="btn-primary btn-glow">Next World &#x27A1;</button>
-        <button id="btn-to-worlds" class="btn-secondary">World Select</button>
+        <button id="btn-to-worlds" class="btn-primary btn-glow">WORLD SELECT</button>
+        <button id="btn-next-world" class="btn-secondary">NEXT LEVEL</button>
+        <button id="btn-random-world" class="btn-secondary">RANDOM LEVEL</button>
       </div>
     </div>
   </div>
@@ -178,6 +203,15 @@
         <div class="stat-row total"><span>Total Score</span><span id="victory-score">0</span></div>
         <div class="stat-row"><span>Total Time</span><span id="victory-time">00:00</span></div>
         <div class="stat-row"><span>Items Collected</span><span id="victory-items">32/32</span></div>
+      </div>
+      <div class="hs-entry" id="hs-entry">
+        <div style="font-size:10px;color:#ffcc00;margin-bottom:8px">ENTER INITIALS</div>
+        <div class="hs-initials" id="hs-initials">
+          <input type="text" maxlength="1" class="hs-char" id="hs-c1" value="A">
+          <input type="text" maxlength="1" class="hs-char" id="hs-c2" value="A">
+          <input type="text" maxlength="1" class="hs-char" id="hs-c3" value="A">
+        </div>
+        <button id="btn-save-score" class="btn-primary" style="margin-top:10px;font-size:10px">SAVE SCORE</button>
       </div>
       <button id="btn-play-again" class="btn-primary btn-glow">Play Again</button>
     </div>
