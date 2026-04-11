@@ -16,7 +16,7 @@ function formatTime(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+((
 // ============================================
 class SoundEngine {
   constructor(){this.ctx=null;this.enabled=true}
-  init(){try{this.ctx=new(window.AudioContext||(window).webkitAudioContext)();if(this.ctx.state==='suspended')this.ctx.resume()}catch(e){this.enabled=false}}
+  init(){try{const AC=window.AudioContext||window['webkitAudioContext'];this.ctx=new AC();if(this.ctx.state==='suspended')this.ctx.resume()}catch(e){this.enabled=false}}
   play(freq,type,dur,vol=0.12){if(!this.enabled||!this.ctx)return;try{const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,this.ctx.currentTime);g.gain.setValueAtTime(vol,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+dur);o.connect(g).connect(this.ctx.destination);o.start();o.stop(this.ctx.currentTime+dur)}catch(e){}}
   playFind(){this.play(523,'square',0.08,0.1);setTimeout(()=>this.play(659,'square',0.08,0.1),80);setTimeout(()=>this.play(784,'square',0.15,0.1),160)}
   playJump(){this.play(300,'square',0.06,0.08);setTimeout(()=>this.play(500,'square',0.06,0.07),40)}
@@ -999,11 +999,17 @@ class App {
     this.gameTimer=null;this.gameSeconds=0;this.gameScore=0;this.challengesSolved=0;this.currentChallengeItemId=null;
     this.init();
   }
-  init(){this.initParticles();this.designer.render();this.bindEvents()}
+  init(){try{this.initParticles()}catch(e){}try{this.designer.render()}catch(e){}this.bindEvents()}
   showScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));requestAnimationFrame(()=>{const s=document.getElementById(`screen-${name}`);if(s)s.classList.add('active')});this.currentScreen=name}
 
   bindEvents(){
-    document.getElementById('btn-start').addEventListener('click',()=>{try{sound.init()}catch(e){}sound.playClick();this.showScreen('character');try{music.playTrack('character')}catch(e){}this.buildCharSelect()});
+    document.getElementById('btn-start').addEventListener('click',()=>{
+      try{sound.init()}catch(e){}
+      try{sound.playClick()}catch(e){}
+      this.showScreen('character');
+      try{music.playTrack('character')}catch(e){}
+      try{this.buildCharSelect()}catch(e){console.error('buildCharSelect error:',e)}
+    });
     // Name input
     const nameInp=document.getElementById('character-name');
     nameInp.addEventListener('input',()=>{nameInp.style.borderColor='';nameInp.placeholder='ENTER NAME'});
@@ -1218,4 +1224,4 @@ class App {
     const anim=()=>{ctx.clearRect(0,0,w,h);ps.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.fillStyle=p.color;ctx.globalAlpha=p.alpha;ctx.fillRect(Math.round(p.x),Math.round(p.y),3,3)});ctx.globalAlpha=1;ctx.strokeStyle='rgba(68,88,136,0.03)';ctx.lineWidth=1;for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y;if(Math.sqrt(dx*dx+dy*dy)<100){ctx.beginPath();ctx.moveTo(Math.round(ps[i].x),Math.round(ps[i].y));ctx.lineTo(Math.round(ps[j].x),Math.round(ps[j].y));ctx.stroke()}}requestAnimationFrame(anim)};anim();
   }
 }
-window.addEventListener('DOMContentLoaded',()=>{new App()});
+window.addEventListener('DOMContentLoaded',()=>{try{new App()}catch(e){console.error('App init error:',e)}});
