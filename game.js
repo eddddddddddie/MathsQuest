@@ -725,37 +725,78 @@ const WORLDS=[
     {id:'nat-fyfe-hair',name:'Nat Fyfe Hair',sprite:'feather',spriteColor:'#ddbb44',xo:2600,yo:320,points:160},
   ],
   drawBg(ctx,W,H,camX,gY,f){
-    ctx.fillStyle='#1a0a2a';ctx.fillRect(0,0,W,H);
-    // AFL oval markings on ground
-    ctx.fillStyle='rgba(255,255,255,0.04)';const go=camX*0.3;
+    // Night sky
+    ctx.fillStyle='#0a0520';ctx.fillRect(0,0,W,H);
+    // Stadium upper tier stands (big, fills top of screen)
+    const so=camX*0.05;
+    ctx.fillStyle='#1a1030';ctx.fillRect(0,0,W,H*0.35);
+    // Stand rows (tiered seating)
+    for(let row=0;row<6;row++){
+      const ry=H*0.04+row*H*0.05;
+      ctx.fillStyle=row%2===0?'rgba(40,20,60,0.6)':'rgba(50,25,70,0.5)';
+      ctx.fillRect(0,ry,W,H*0.04);
+      // Crowd in seats (dense, colored)
+      for(let i=0;i<50;i++){const cx2=i*22-(so%(22*50))+row*5;if(cx2<-8||cx2>W+8)continue;
+        const bounce=Math.sin(f*0.04+i*1.3+row)>0.75?-2:0;
+        const purple=Math.sin(i*2.7+row)>0;
+        ctx.fillStyle=purple?'rgba(120,50,200,0.25)':'rgba(220,220,220,0.12)';
+        ctx.fillRect(cx2,ry+2+bounce,6,H*0.03);
+        ctx.fillStyle=purple?'rgba(100,40,180,0.2)':'rgba(180,180,180,0.08)';
+        ctx.fillRect(cx2+1,ry-1+bounce,4,3);}
+    }
+    // Hoardings / advertising boards along the bottom of stands
+    const ho=camX*0.2;
+    ctx.fillStyle='rgba(200,200,200,0.08)';ctx.fillRect(0,H*0.34,W,H*0.04);
+    // Sponsor boards
+    const sponsors=['OPTUS','FREO','AFL','DOCKERS','TOYOTA','NAB'];
+    ctx.font='6px "Press Start 2P",monospace';ctx.textAlign='center';
+    for(let i=0;i<12;i++){const hx=i*120+60-(ho%(120*12));if(hx<-60||hx>W+60)continue;
+      const bgCol=i%3===0?'rgba(120,50,200,0.15)':i%3===1?'rgba(200,200,200,0.06)':'rgba(40,100,40,0.1)';
+      ctx.fillStyle=bgCol;ctx.fillRect(hx-50,H*0.34,100,H*0.04);
+      ctx.fillStyle='rgba(255,255,255,0.08)';ctx.fillText(sponsors[i%sponsors.length],hx,H*0.34+H*0.03);}
+    ctx.textAlign='start';
+    // Lower stands / fence
+    ctx.fillStyle='rgba(30,15,45,0.4)';ctx.fillRect(0,H*0.38,W,H*0.04);
+    // Floodlight towers (4 big ones)
+    const fo=camX*0.08;for(let i=0;i<4;i++){const fx=i*W*0.28+W*0.1-(fo%(W*0.28*4));if(fx<-30||fx>W+30)continue;
+      // Tower structure
+      ctx.fillStyle='rgba(160,160,180,0.12)';
+      ctx.fillRect(fx-2,H*0.01,6,H*0.35);
+      ctx.fillRect(fx-1,H*0.01,4,H*0.35);
+      // Light cluster at top
+      ctx.fillStyle='rgba(180,180,200,0.15)';ctx.fillRect(fx-12,H*0.01,26,10);
+      // Light beams (wide, bright)
+      ctx.fillStyle='rgba(255,255,220,0.015)';
+      ctx.fillRect(fx-60,H*0.02,120,gY-H*0.02);
+      // Individual lights
+      for(let l=0;l<5;l++){ctx.fillStyle='rgba(255,255,200,0.12)';ctx.fillRect(fx-10+l*5,H*0.01+2,4,4)}}
+    // Oval markings on ground
+    ctx.fillStyle='rgba(255,255,255,0.05)';const go=camX*0.3;
     for(let i=0;i<5;i++){const cx2=i*700+350-(go%(700*5));if(cx2<-100||cx2>W+100)continue;
-      ctx.fillRect(cx2-80,gY-2,160,2);ctx.fillRect(cx2-1,gY-30,2,30);// center line + circle suggest
-      ctx.fillRect(cx2-30,gY-2,60,2);
-      // 50m arc
-      ctx.fillRect(cx2-60,gY-1,120,1)}
-    // Floodlights
-    const fo=camX*0.1;for(let i=0;i<6;i++){const fx=i*550+100-(fo%(550*6));if(fx<-20||fx>W+20)continue;
-      ctx.fillStyle='rgba(150,150,170,0.1)';ctx.fillRect(fx,H*0.02,4,gY-H*0.02);
-      ctx.fillStyle='rgba(150,150,170,0.08)';ctx.fillRect(fx-6,H*0.02,16,8);
-      // Light beams
-      ctx.fillStyle='rgba(255,255,200,0.02)';ctx.fillRect(fx-30,H*0.03,64,gY*0.5)}
-    // Big Dockers anchor logo (background)
-    const ax=W*0.5-camX*0.04;ctx.fillStyle='rgba(120,50,200,0.08)';
-    ctx.fillRect(ax-3,H*0.08,6,H*0.3);ctx.fillRect(ax-20,H*0.08+H*0.25,40,6);
-    ctx.fillRect(ax-15,H*0.08+H*0.2,4,H*0.1);ctx.fillRect(ax+11,H*0.08+H*0.2,4,H*0.1);
-    ctx.fillRect(ax-8,H*0.06,16,6);// anchor ring
-    // Purple & white streamers
-    for(let i=0;i<8;i++){const sx=(i*400+f*0.6)%(W+100)-50,sy=H*0.05+Math.sin(f*0.01+i*2)*H*0.15;
-      ctx.fillStyle=i%2===0?'rgba(120,50,200,0.12)':'rgba(255,255,255,0.08)';
-      ctx.fillRect(sx,sy,20,4);ctx.fillRect(sx+4,sy+4,12,4)}
-    // Crowd (pixel heads)
-    const co=camX*0.15;for(let i=0;i<30;i++){const cx3=i*110-(co%(110*30));if(cx3<-8||cx3>W+8)continue;
-      const bounce=Math.sin(f*0.05+i*1.5)>0.7?-3:0;
-      ctx.fillStyle=i%3===0?'rgba(120,50,200,0.12)':'rgba(200,200,200,0.06)';
-      ctx.fillRect(cx3,gY-18+bounce,8,8);ctx.fillRect(cx3+1,gY-22+bounce,6,4)}
-    // Flying footballs
-    for(let i=0;i<3;i++){const bx=(i*900+f*0.8)%(W+100)-50,by=H*0.1+Math.sin(f*0.012+i*2)*H*0.12;
-      const rot=Math.sin(f*0.04+i);ctx.fillStyle='rgba(180,80,40,0.12)';ctx.fillRect(bx,by,14,8);ctx.fillStyle='rgba(220,200,180,0.08)';ctx.fillRect(bx+5,by+1,4,6)}
+      ctx.fillRect(cx2-80,gY-2,160,2);ctx.fillRect(cx2-1,gY-25,2,25);
+      ctx.fillRect(cx2-30,gY-2,60,2);ctx.fillRect(cx2-60,gY-1,120,1);
+      // Center circle
+      for(let a=0;a<12;a++){const ax2=cx2+Math.cos(a*Math.PI/6)*25,ay=gY-2+Math.sin(a*Math.PI/6)*-8;ctx.fillRect(ax2,ay,2,2)}}
+    // Anchor logo on the ground (big, like a painted logo)
+    const ax=W*0.5-camX*0.15;
+    ctx.fillStyle='rgba(120,50,200,0.06)';
+    ctx.fillRect(ax-2,gY-35,4,30);ctx.fillRect(ax-15,gY-10,30,4);
+    ctx.fillRect(ax-10,gY-18,4,12);ctx.fillRect(ax+6,gY-18,4,12);
+    ctx.fillRect(ax-6,gY-38,12,5);
+    // Purple & white streamers / confetti
+    for(let i=0;i<10;i++){const sx=(i*300+f*0.8)%(W+80)-40,sy=H*0.3+Math.sin(f*0.012+i*2)*H*0.15;
+      ctx.fillStyle=i%2===0?'rgba(120,50,200,0.15)':'rgba(255,255,255,0.1)';
+      ctx.fillRect(sx,sy,4,8+Math.sin(f*0.03+i)*4);ctx.fillRect(sx+6,sy+4,3,6)}
+    // Flying footballs (Sherrins)
+    for(let i=0;i<3;i++){const bx=(i*900+f*0.8)%(W+100)-50,by=H*0.15+Math.sin(f*0.012+i*2)*H*0.1;
+      ctx.fillStyle='rgba(180,80,40,0.15)';ctx.fillRect(bx,by,14,8);ctx.fillRect(bx+2,by-2,10,12);
+      ctx.fillStyle='rgba(220,200,180,0.1)';ctx.fillRect(bx+5,by+1,4,6)}
+    // Score board (far background)
+    const sbx=W*0.8-camX*0.03;
+    ctx.fillStyle='rgba(20,10,30,0.3)';ctx.fillRect(sbx-30,H*0.06,60,25);
+    ctx.fillStyle='rgba(120,50,200,0.1)';ctx.fillRect(sbx-28,H*0.06+2,56,21);
+    ctx.fillStyle='rgba(255,255,255,0.06)';ctx.font='5px "Press Start 2P",monospace';ctx.textAlign='center';
+    ctx.fillText('FREO',sbx,H*0.06+10);ctx.fillText('42',sbx,H*0.06+20);ctx.textAlign='start';
   }
 },
 {
