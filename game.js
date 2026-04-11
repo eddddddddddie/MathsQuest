@@ -16,7 +16,7 @@ function formatTime(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+((
 // ============================================
 class SoundEngine {
   constructor(){this.ctx=null;this.enabled=true}
-  init(){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){this.enabled=false}}
+  init(){try{this.ctx=new(window.AudioContext||(window).webkitAudioContext)();if(this.ctx.state==='suspended')this.ctx.resume()}catch(e){this.enabled=false}}
   play(freq,type,dur,vol=0.12){if(!this.enabled||!this.ctx)return;try{const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,this.ctx.currentTime);g.gain.setValueAtTime(vol,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+dur);o.connect(g).connect(this.ctx.destination);o.start();o.stop(this.ctx.currentTime+dur)}catch(e){}}
   playFind(){this.play(523,'square',0.08,0.1);setTimeout(()=>this.play(659,'square',0.08,0.1),80);setTimeout(()=>this.play(784,'square',0.15,0.1),160)}
   playJump(){this.play(300,'square',0.06,0.08);setTimeout(()=>this.play(500,'square',0.06,0.07),40)}
@@ -51,7 +51,7 @@ class MusicEngine {
     if(!this.noiseBuffer||!sound.ctx)return;
     try{const s=sound.ctx.createBufferSource();s.buffer=this.noiseBuffer;const g=sound.ctx.createGain();g.gain.setValueAtTime(vol,startTime);g.gain.exponentialRampToValueAtTime(0.001,startTime+dur);s.connect(g).connect(sound.ctx.destination);s.start(startTime);s.stop(startTime+dur);this.nodes.push(s)}catch(e){}
   }
-  playTrack(name){
+  playTrack(name){try{
     if(this.currentTrack===name)return;this.stop();this.currentTrack=name;this.playing=true;this._ensureNoise();
     const NF={C2:65,D2:73,E2:82,F2:87,G2:98,A2:110,Bb2:117,B2:123,Ab2:104,C3:131,D3:147,E3:165,F3:175,G3:196,A3:220,Bb3:233,B3:247,Ab3:208,Eb3:156,C4:262,D4:294,E4:330,F4:349,G4:392,A4:440,Bb4:466,B4:494,Ab4:415,Eb4:311,C5:523,D5:587,E5:659,F5:698,G5:784,A5:880,A1:55,B1:62};
     const tracks={
@@ -107,6 +107,7 @@ class MusicEngine {
       const loopMs=track.voices[0].notes.length*beatMs;
       if(true){const t=setTimeout(()=>{this.nodes=[];scheduleLoop()},loopMs);this.timers.push(t)}
     };scheduleLoop();
+    }catch(e){}
   }
 }
 const music=new MusicEngine();
@@ -1002,7 +1003,7 @@ class App {
   showScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));requestAnimationFrame(()=>{const s=document.getElementById(`screen-${name}`);if(s)s.classList.add('active')});this.currentScreen=name}
 
   bindEvents(){
-    document.getElementById('btn-start').addEventListener('click',()=>{sound.init();sound.playClick();this.showScreen('character');music.playTrack('character');this.buildCharSelect()});
+    document.getElementById('btn-start').addEventListener('click',()=>{try{sound.init()}catch(e){}sound.playClick();this.showScreen('character');try{music.playTrack('character')}catch(e){}this.buildCharSelect()});
     // Name input
     const nameInp=document.getElementById('character-name');
     nameInp.addEventListener('input',()=>{nameInp.style.borderColor='';nameInp.placeholder='ENTER NAME'});
@@ -1010,11 +1011,7 @@ class App {
     document.getElementById('btn-enter-hunt').addEventListener('click',()=>{const name=nameInp.value.trim();if(!name){sound.playError();nameInp.style.borderColor='#ff2040';nameInp.placeholder='ENTER NAME!';nameInp.focus();return}sound.playSuccess();this.characterName=name;this.showWorldSelect()});
     // Random
     document.getElementById('btn-random').addEventListener('click',()=>{this._randomizeCharacter()});
-    // Rotate view
     this._charView=0;
-    document.getElementById('btn-rotate').addEventListener('click',()=>{this._charView=(this._charView+1)%3;sound.play(400+this._charView*100,'square',0.05,0.06);this.designer.render(this._charView)});
-    // Auto-rotate
-    setInterval(()=>{if(this.currentScreen==='character'){this._charView=(this._charView+1)%3;this.designer.render(this._charView)}},2500);
     document.getElementById('btn-back-char').addEventListener('click',()=>{sound.playClick();this.showScreen('character');this.buildCharSelect()});
     document.getElementById('btn-game-back').addEventListener('click',()=>{sound.playClick();this.stopTimer();if(this.engine)this.engine.stop();this.showWorldSelect()});
     document.getElementById('challenge-submit').addEventListener('click',()=>this.submitChallenge());
