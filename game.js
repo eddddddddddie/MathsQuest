@@ -1491,26 +1491,25 @@ class App {
 }
 window.addEventListener('DOMContentLoaded',()=>{
   try{new App()}catch(e){console.error('App init error:',e)}
-  // Splash overlay - completely separate from screen system
-  const splashEl=document.getElementById('splash-overlay');
-  if(splashEl){
-    let splashDone=false;
-    const dismissSplash=()=>{
-      if(splashDone)return;splashDone=true;
-      try{sound.init()}catch(e){}
-      try{
-        sound.play(262,'triangle',0.2,0.1);
-        setTimeout(()=>sound.play(330,'triangle',0.2,0.1),120);
-        setTimeout(()=>sound.play(392,'triangle',0.2,0.1),240);
-        setTimeout(()=>sound.play(523,'triangle',0.3,0.12),360);
-        setTimeout(()=>{sound.play(523,'square',0.15,0.08);sound.play(659,'square',0.15,0.08)},500);
-        setTimeout(()=>{sound.play(784,'square',0.4,0.1);sound.play(523,'triangle',0.4,0.08)},650);
-      }catch(e){}
-      setTimeout(()=>{splashEl.style.opacity='0';splashEl.style.transition='opacity 0.5s'},800);
-      setTimeout(()=>{splashEl.remove()},1400);
-    };
-    splashEl.addEventListener('click',dismissSplash);
-    splashEl.addEventListener('touchstart',dismissSplash);
-    setTimeout(()=>{if(!splashDone){splashDone=true;splashEl.style.opacity='0';splashEl.style.transition='opacity 0.5s';setTimeout(()=>{splashEl.remove()},600)}},20000);
-  }
+  // Splash overlay - global function called from onclick in HTML
+  var splashDone=false;
+  window._dismissSplash=function(){
+    if(splashDone)return;splashDone=true;
+    var el=document.getElementById('splash-overlay');
+    if(!el)return;
+    try{sound.init()}catch(e){}
+    try{
+      sound.play(262,'triangle',0.2,0.1);
+      setTimeout(function(){sound.play(330,'triangle',0.2,0.1)},120);
+      setTimeout(function(){sound.play(392,'triangle',0.2,0.1)},240);
+      setTimeout(function(){sound.play(523,'triangle',0.3,0.12)},360);
+      setTimeout(function(){try{sound.play(523,'square',0.15,0.08);sound.play(659,'square',0.15,0.08)}catch(e){}},500);
+      setTimeout(function(){try{sound.play(784,'square',0.4,0.1);sound.play(523,'triangle',0.4,0.08)}catch(e){}},650);
+    }catch(e){}
+    setTimeout(function(){if(el){el.style.opacity='0';el.style.transition='opacity 0.5s'}},800);
+    setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el)},1400);
+  };
+  setTimeout(function(){
+    if(!splashDone){splashDone=true;var el=document.getElementById('splash-overlay');if(el){el.style.opacity='0';el.style.transition='opacity 0.5s';setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el)},600)}}
+  },20000);
 });
