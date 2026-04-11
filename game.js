@@ -699,7 +699,7 @@ const WORLDS=[
   }
 },
 {
-  id:'dockers-world',name:'Freo Dockers',icon:'\u{1F3C8}',description:'Purple pride at Freo Oval!',
+  id:'dockers-world',name:'Optus Stadium',icon:'\u{1F3C8}',description:'',
   difficulty:'Medium',worldWidth:3200,gravity:0.5,jumpForce:14,
   colors:{sky:'#1a0a2a',ground:'#2a8a30',groundDk:'#1a6a20',plat:'#5522aa',platTop:'#7733cc',platEdge:'#3a1188',brick:'#4a1a99'},
   platforms:[
@@ -867,7 +867,6 @@ class PlatformerEngine {
     this.platforms.forEach(p=>{for(let x=p.x+12;x<p.x+p.w-12;x+=40)this.coins.push({x,y:p.y-16,collected:false})});
     this.door={x:wd.worldWidth-80,y:this.groundY-72,w:48,h:72};
     this.checkpoint={x:Math.floor(wd.worldWidth/2),y:this.groundY,activated:false};
-    this.boss={x:wd.worldWidth-160,y:this.groundY-60,w:48,h:60,hp:3,dir:1,range:80,startX:wd.worldWidth-200,dead:false,squishTimer:0};
     this.player={x:60,y:this.groundY-50,vx:0,vy:0,width:30,height:48,onGround:false,onLadder:false,facing:1,walkFrame:0,climbFrame:0,
       lives:3,starTimer:0,invincible:0,dying:false,dyingTimer:0,opts:co};
     this.camera={x:0,y:0};this.running=true;this.paused=false;this.canvas.focus();this._loop();
@@ -958,14 +957,6 @@ class PlatformerEngine {
     for(const pu of this.powerups){if(pu.collected)continue;if(p.x+p.width>pu.x&&p.x<pu.x+32&&p.y+p.height>pu.y&&p.y<pu.y+24){pu.collected=true;p.starTimer=300;sound.playPowerup();this.floatingTexts.push({text:'INVINCIBLE!',x:pu.x,y:pu.y-16,alpha:1,life:70,maxLife:70,scale:0.5})}}
     // Checkpoint
     const cp=this.checkpoint;if(cp&&!cp.activated&&p.x>cp.x-10&&p.x<cp.x+20&&p.y+p.height>cp.y-40){cp.activated=true;sound.playFind();this.floatingTexts.push({text:'CHECKPOINT!',x:cp.x,y:cp.y-60,alpha:1,life:60,maxLife:60,scale:0.5})}
-    // Boss
-    const boss=this.boss;if(boss&&!boss.dead){
-      boss.x+=boss.dir*0.8;if(boss.x>boss.startX+boss.range||boss.x<boss.startX)boss.dir*=-1;
-      if(p.starTimer<=0&&p.invincible<=0&&p.x+p.width>boss.x+6&&p.x<boss.x+boss.w-6&&p.y+p.height>boss.y+6&&p.y<boss.y+boss.h-6){
-        if(p.vy>0&&p.y+p.height-p.vy<=boss.y+8){boss.hp--;p.vy=-10;sound.playStomp();this.floatingTexts.push({text:'HIT!',x:boss.x+20,y:boss.y-10,alpha:1,life:40,maxLife:40,scale:0.5});if(boss.hp<=0){boss.dead=true;boss.squishTimer=30;this.doorOpen=true;sound.playSuccess();this.floatingTexts.push({text:'DOOR OPEN!',x:this.door.x-30,y:this.door.y-20,alpha:1,life:70,maxLife:70,scale:0.5})}}
-        else{this._takeHit()}}
-      if(p.starTimer>0&&p.x+p.width>boss.x&&p.x<boss.x+boss.w&&p.y+p.height>boss.y&&p.y<boss.y+boss.h){boss.hp=0;boss.dead=true;boss.squishTimer=30;this.doorOpen=true;sound.playSuccess();this.floatingTexts.push({text:'DOOR OPEN!',x:this.door.x-30,y:this.door.y-20,alpha:1,life:70,maxLife:70,scale:0.5})}
-    }
     // Door
     if(this.doorOpen&&!this.enteringDoor){const d=this.door;if(p.x+p.width>d.x+8&&p.x<d.x+d.w-8&&p.y+p.height>d.y&&p.y<d.y+d.h){this.enteringDoor=true;sound.playDoor();setTimeout(()=>{this.running=false;this.app.completeWorld()},800)}}
     // Camera (horizontal + vertical)
@@ -975,7 +966,7 @@ class PlatformerEngine {
     this.floatingTexts=this.floatingTexts.filter(ft=>{ft.y-=1;ft.life--;const half=ft.maxLife/2;ft.alpha=ft.life>half?1:(ft.life/half);ft.scale=(ft.scale||1)+(ft.life>half?0.02:-0.01);return ft.life>0});
   }
 
-  _collectItem(item){item.collected=true;this.foundItems.add(item.id);sound.playFind();this.app.onItemCollected(item);this.floatingTexts.push({text:`+${item.points}`,x:item.x,y:item.y-10,alpha:1,life:60,maxLife:60,scale:0.5});if(this.foundItems.size===this.world.items.length&&this.boss.dead){this.doorOpen=true;sound.playSuccess();this.floatingTexts.push({text:'DOOR OPEN!',x:this.door.x-30,y:this.door.y-20,alpha:1,life:80,maxLife:80,scale:0.5})}}
+  _collectItem(item){item.collected=true;this.foundItems.add(item.id);sound.playFind();this.app.onItemCollected(item);this.floatingTexts.push({text:`+${item.points}`,x:item.x,y:item.y-10,alpha:1,life:60,maxLife:60,scale:0.5});if(this.foundItems.size===this.world.items.length){this.doorOpen=true;sound.playSuccess();this.floatingTexts.push({text:'DOOR OPEN!',x:this.door.x-30,y:this.door.y-20,alpha:1,life:80,maxLife:80,scale:0.5})}}
   collectChallengeItem(id){const item=this.items.find(i=>i.id===id);if(item)this._collectItem(item);this.lastChallengeId=null;this.challengeCooldown=20;this.resume()}
   skipChallenge(){this.challengeCooldown=30;this.resume()}
   _takeHit(){
@@ -1037,18 +1028,6 @@ class PlatformerEngine {
     });
     // Checkpoint flag
     if(this.checkpoint){const cpx=this.checkpoint.x-cam.x;ctx.fillStyle='#888';ctx.fillRect(cpx,this.groundY-40,3,40);ctx.fillStyle=this.checkpoint.activated?'#00ff41':'#ff2040';ctx.fillRect(cpx+3,this.groundY-40,14,10);ctx.fillStyle=this.checkpoint.activated?'#00aa22':'#aa1020';ctx.fillRect(cpx+3,this.groundY-38,12,6)}
-    // Boss
-    if(this.boss&&!this.boss.dead){const b=this.boss,bx=b.x-cam.x;
-      ctx.fillStyle='#cc2244';ctx.fillRect(bx,b.y,b.w,b.h);ctx.fillStyle='#aa1133';ctx.fillRect(bx,b.y+b.h-12,b.w,12);
-      ctx.fillStyle='#fff';ctx.fillRect(bx+8,b.y+12,10,10);ctx.fillRect(bx+30,b.y+12,10,10);
-      ctx.fillStyle='#111';ctx.fillRect(bx+12,b.y+16,5,6);ctx.fillRect(bx+34,b.y+16,5,6);
-      ctx.fillStyle='#cc2244';ctx.fillRect(bx+6,b.y+8,14,4);ctx.fillRect(bx+28,b.y+8,14,4);//brows
-      ctx.fillStyle='#111';ctx.fillRect(bx+14,b.y+32,20,6);//mouth
-      // HP pips
-      for(let i=0;i<3;i++){ctx.fillStyle=i<b.hp?'#ff2040':'#333';ctx.fillRect(bx+8+i*14,b.y-8,10,5)}
-      // Label
-      ctx.fillStyle='#ff4466';ctx.font='7px "Press Start 2P",monospace';ctx.textAlign='center';ctx.fillText('BOSS',bx+b.w/2,b.y-12);ctx.textAlign='start';
-    }else if(this.boss&&this.boss.squishTimer>0){const b=this.boss,bx=b.x-cam.x;this.boss.squishTimer--;ctx.fillStyle='#cc2244';ctx.fillRect(bx,this.groundY-8,b.w,8)}
     // Player
     if(!p.dying||Math.floor(this.frame/3)%2===0){
       if(!(p.invincible>0&&Math.floor(this.frame/4)%2===0))this._drawPlayer(ctx,cam);
@@ -1358,13 +1337,15 @@ class App {
 
       const bt=this.worldProgress[i].bestTime<Infinity?formatTime(this.worldProgress[i].bestTime):'--:--';
       const diffIcon={'Easy':'\u{2605}','Medium':'\u{2605}\u{2605}','Hard':'\u{2605}\u{2605}\u{2605}','Expert':'\u{2605}\u{2605}\u{2605}\u{2605}'}[w.difficulty]||'\u{2605}';
-      card.innerHTML=`${completed?'<div class="check-icon" style="color:#00ff41;font-size:12px">DONE</div>':''}<div class="world-card-content"><div class="world-card-name">${w.name}</div><div class="world-card-desc">${w.description}</div><div class="world-card-meta"><span>${diffIcon}</span><span>${w.items.length} items</span>${completed?`<span>${bt}</span><span>${this.worldProgress[i].score}pts</span>`:''}</div></div>`;
+      card.innerHTML=`${completed?'<div class="check-icon" style="color:#00ff41;font-size:12px">DONE</div>':''}<div class="world-card-content"><div class="world-card-name">${w.name}</div><div class="world-card-meta"><span>${diffIcon}</span><span>${w.items.length} items</span>${completed?`<span>${bt}</span><span>${this.worldProgress[i].score}pts</span>`:''}</div></div>`;
       card.insertBefore(cvs,card.firstChild);
       card.addEventListener('click',()=>{sound.playClick();this.startWorld(i)});
       grid.appendChild(card);
     });
     this.designer.renderMini('worlds-mini-avatar');document.getElementById('worlds-player-name').textContent=this.characterName;music.playTrack('character');this.showScreen('worlds');
   }
+
+
 
   startWorld(index){
     this.currentWorldIndex=index;const w=WORLDS[index];
