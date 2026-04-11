@@ -167,9 +167,9 @@ class CharacterDesigner {
       // Side ear
       ctx.fillStyle=skin;ctx.fillRect(ox,cy-P,P,3*P);
     }
-    // view===2 (back) - no face features, just head shape
+    // Hair (all views)
     ctx.fillStyle=hair;
-    if(hs!=='bald'){ctx.fillRect(ox+P,cy-4*P,8*P,2*P);ctx.fillRect(ox+2*P,cy-5*P,6*P,P);ctx.fillStyle=lighten(hair,20);ctx.fillRect(ox+3*P,cy-5*P,4*P,P/2);ctx.fillStyle=hair;
+    if(o.hairStyle!=='bald'){ctx.fillRect(ox+P,cy-4*P,8*P,2*P);ctx.fillRect(ox+2*P,cy-5*P,6*P,P);ctx.fillStyle=lighten(hair,20);ctx.fillRect(ox+3*P,cy-5*P,4*P,P/2);ctx.fillStyle=hair;
       if(o.hairStyle==='short'){ctx.fillRect(ox,cy-3*P,P,3*P);ctx.fillRect(ox+9*P,cy-3*P,P,3*P)}
       if(o.hairStyle==='medium'){ctx.fillRect(ox,cy-3*P,P,6*P);ctx.fillRect(ox+9*P,cy-3*P,P,6*P)}
       if(o.hairStyle==='long'){ctx.fillRect(ox,cy-3*P,P,10*P);ctx.fillRect(ox+9*P,cy-3*P,P,10*P)}
@@ -177,8 +177,10 @@ class CharacterDesigner {
       if(o.hairStyle==='afro'){ctx.fillRect(ox-P,cy-6*P,12*P,3*P);ctx.fillRect(ox-2*P,cy-4*P,14*P,2*P);ctx.fillRect(ox-2*P,cy-2*P,2*P,4*P);ctx.fillRect(ox+10*P,cy-2*P,2*P,4*P)}
       if(o.hairStyle==='ponytail'){ctx.fillRect(ox+8*P,cy-4*P,3*P,2*P);ctx.fillRect(ox+10*P,cy-2*P,P,6*P);ctx.fillStyle='#E74C3C';ctx.fillRect(ox+9*P,cy-2*P,P,P)}
       if(o.hairStyle==='bun'){ctx.fillRect(ox+3*P,cy-7*P,4*P,2*P);ctx.fillRect(ox+4*P,cy-8*P,2*P,P)}}
-    if(o.accessory&&o.accessory.includes('glasses')){ctx.fillStyle='#555';ctx.fillRect(ox+P,cy-2*P,3*P,3*P);ctx.fillRect(ox+6*P,cy-2*P,3*P,3*P);ctx.fillRect(ox+4*P,cy-P,2*P,P/2)}
-    if(o.accessory==='earrings'){ctx.fillStyle='#F0C040';ctx.fillRect(ox-P/2,cy+P,P,P);ctx.fillRect(ox+9*P+P/2,cy+P,P,P)}
+    if(view!==2){
+      if(o.accessory&&o.accessory.includes('glasses')){ctx.fillStyle='#555';ctx.fillRect(ox+P,cy-2*P,3*P,3*P);ctx.fillRect(ox+6*P,cy-2*P,3*P,3*P);ctx.fillRect(ox+4*P,cy-P,2*P,P/2)}
+      if(o.accessory==='earrings'){ctx.fillStyle='#F0C040';ctx.fillRect(ox-P/2,cy+P,P,P);ctx.fillRect(ox+9*P+P/2,cy+P,P,P)}
+    }
     if(o.accessory==='headband'){ctx.fillStyle='#E74C3C';ctx.fillRect(ox,cy-3*P,10*P,P)}
     ctx.fillStyle='#ffcc00';ctx.font='10px "Press Start 2P",monospace';ctx.textAlign='center';ctx.fillText('IN-GAME PREVIEW',200,cy+19*P);ctx.textAlign='start';ctx.restore();
   }
