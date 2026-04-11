@@ -1491,28 +1491,26 @@ class App {
 }
 window.addEventListener('DOMContentLoaded',()=>{
   try{new App()}catch(e){console.error('App init error:',e)}
-  // Splash: click/tap anywhere to init audio and play flourish, then advance
-  const splash=document.getElementById('screen-splash');
-  let splashDone=false;
-  const playSplashAudio=()=>{
-    try{sound.init()}catch(e){}
-    try{
-      sound.play(262,'triangle',0.2,0.1);
-      setTimeout(()=>sound.play(330,'triangle',0.2,0.1),120);
-      setTimeout(()=>sound.play(392,'triangle',0.2,0.1),240);
-      setTimeout(()=>sound.play(523,'triangle',0.3,0.12),360);
-      setTimeout(()=>{sound.play(523,'square',0.15,0.08);sound.play(659,'square',0.15,0.08)},500);
-      setTimeout(()=>{sound.play(784,'square',0.4,0.1);sound.play(523,'triangle',0.4,0.08)},650);
-    }catch(e){}
-  };
-  const advanceFromSplash=()=>{
-    if(splashDone)return;splashDone=true;
-    splash.classList.remove('active');
-    setTimeout(()=>{document.getElementById('screen-title').classList.add('active')},400);
-  };
-  // Click/tap splash to play audio + skip
-  splash.addEventListener('click',()=>{playSplashAudio();setTimeout(advanceFromSplash,1200)});
-  splash.addEventListener('touchstart',()=>{playSplashAudio();setTimeout(advanceFromSplash,1200)});
-  // Auto-advance after 3s (without audio if no click)
-  setTimeout(advanceFromSplash,3000);
+  // Splash overlay - completely separate from screen system
+  const splashEl=document.getElementById('splash-overlay');
+  if(splashEl){
+    let splashDone=false;
+    const dismissSplash=()=>{
+      if(splashDone)return;splashDone=true;
+      try{sound.init()}catch(e){}
+      try{
+        sound.play(262,'triangle',0.2,0.1);
+        setTimeout(()=>sound.play(330,'triangle',0.2,0.1),120);
+        setTimeout(()=>sound.play(392,'triangle',0.2,0.1),240);
+        setTimeout(()=>sound.play(523,'triangle',0.3,0.12),360);
+        setTimeout(()=>{sound.play(523,'square',0.15,0.08);sound.play(659,'square',0.15,0.08)},500);
+        setTimeout(()=>{sound.play(784,'square',0.4,0.1);sound.play(523,'triangle',0.4,0.08)},650);
+      }catch(e){}
+      setTimeout(()=>{splashEl.style.opacity='0';splashEl.style.transition='opacity 0.5s'},800);
+      setTimeout(()=>{splashEl.remove()},1400);
+    };
+    splashEl.addEventListener('click',dismissSplash);
+    splashEl.addEventListener('touchstart',dismissSplash);
+    setTimeout(()=>{if(!splashDone){splashDone=true;splashEl.style.opacity='0';splashEl.style.transition='opacity 0.5s';setTimeout(()=>{splashEl.remove()},600)}},20000);
+  }
 });

@@ -11,17 +11,15 @@
   <!-- Background particle canvas -->
   <canvas id="bg-particles"></canvas>
 
-  <!-- ===== SPLASH SCREEN ===== -->
-  <div id="screen-splash" class="screen active">
-    <div class="splash-content">
-      <div class="splash-logo" id="splash-logo">LEWIS GAMES</div>
-      <div class="splash-tm">INC.</div>
-      <div class="splash-tap">TAP TO START</div>
-    </div>
+  <!-- ===== SPLASH SCREEN (outside screen system) ===== -->
+  <div id="splash-overlay" style="position:fixed;inset:0;z-index:9998;background:#0a0a1a;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer">
+    <div class="splash-logo" id="splash-logo">LEWIS GAMES</div>
+    <div class="splash-tm">INC.</div>
+    <div class="splash-tap">TAP TO START</div>
   </div>
 
   <!-- ===== TITLE SCREEN ===== -->
-  <div id="screen-title" class="screen">
+  <div id="screen-title" class="screen active">
     <div class="title-content">
       <div class="title-logo">
         <div class="title-icon" style="font-size:2rem;color:#ffcc00">[ + ]</div>
