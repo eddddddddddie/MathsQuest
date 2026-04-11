@@ -1491,25 +1491,4 @@ class App {
 }
 window.addEventListener('DOMContentLoaded',()=>{
   try{new App()}catch(e){console.error('App init error:',e)}
-  // Splash overlay - global function called from onclick in HTML
-  var splashDone=false;
-  window._dismissSplash=function(){
-    if(splashDone)return;splashDone=true;
-    var el=document.getElementById('splash-overlay');
-    if(!el)return;
-    try{sound.init()}catch(e){}
-    try{
-      sound.play(262,'triangle',0.2,0.1);
-      setTimeout(function(){sound.play(330,'triangle',0.2,0.1)},120);
-      setTimeout(function(){sound.play(392,'triangle',0.2,0.1)},240);
-      setTimeout(function(){sound.play(523,'triangle',0.3,0.12)},360);
-      setTimeout(function(){try{sound.play(523,'square',0.15,0.08);sound.play(659,'square',0.15,0.08)}catch(e){}},500);
-      setTimeout(function(){try{sound.play(784,'square',0.4,0.1);sound.play(523,'triangle',0.4,0.08)}catch(e){}},650);
-    }catch(e){}
-    setTimeout(function(){if(el){el.style.opacity='0';el.style.transition='opacity 0.5s'}},800);
-    setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el)},1400);
-  };
-  setTimeout(function(){
-    if(!splashDone){splashDone=true;var el=document.getElementById('splash-overlay');if(el){el.style.opacity='0';el.style.transition='opacity 0.5s';setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el)},600)}}
-  },20000);
 });
