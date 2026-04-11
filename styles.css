@@ -140,13 +140,13 @@ input { font-family: var(--font-body); outline: none; }
 
 /* ===== WORLD SELECT ===== */
 #screen-worlds { flex-direction: column; padding: 28px; gap: 20px; }
-.worlds-header { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1100px; }
+.worlds-header { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; }
 .worlds-header h2 { font-size: 16px; color: var(--accent); text-shadow: 2px 2px 0 #aa8800; }
 .worlds-avatar { display: flex; align-items: center; gap: 8px; }
 .worlds-avatar canvas { border: 2px solid #444466; }
 .worlds-avatar span { font-size: 8px; }
 
-.world-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; max-width: 1100px; width: 100%; }
+.world-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; max-width: 1200px; width: 100%; }
 .world-card {
   position: relative; overflow: hidden;
   background: #111122; cursor: pointer;

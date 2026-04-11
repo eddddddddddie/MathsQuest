@@ -55,43 +55,56 @@ class MusicEngine {
     if(this.currentTrack===name)return;this.stop();this.currentTrack=name;this.playing=true;this._ensureNoise();
     const NF={C2:65,D2:73,E2:82,F2:87,G2:98,A2:110,Bb2:117,B2:123,Ab2:104,C3:131,D3:147,E3:165,F3:175,G3:196,A3:220,Bb3:233,B3:247,Ab3:208,Eb3:156,C4:262,D4:294,E4:330,F4:349,G4:392,A4:440,Bb4:466,B4:494,Ab4:415,Eb4:311,C5:523,D5:587,E5:659,F5:698,G5:784,A5:880,A1:55,B1:62};
     const tracks={
-      character:{bpm:180,voices:[
+      character:{bpm:220,voices:[
         {type:'square',vol:0.06,notes:['E4','E4','R','E4','R','C4','E4','R','G4','R','R','R','G3','R','R','R','C4','R','R','G3','R','R','E3','R','R','A3','R','B3','R','Bb3','A3','R','G3','E4','G4','A4','R','F4','G4','R','E4','R','C4','D4','B3','R','R','R']},
         {type:'triangle',vol:0.05,notes:['C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','A2','R','E3','R','B2','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','G2','R','G3','R']},
       ],perc:['H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R']},
-      'enchanted-forest':{bpm:155,voices:[
+      'enchanted-forest':{bpm:195,voices:[
         {type:'square',vol:0.05,notes:['E4','G4','A4','G4','E4','D4','C4','D4','E4','R','G4','R','A4','R','R','R','C5','B4','A4','G4','A4','G4','E4','R','D4','E4','G4','E4','D4','C4','R','R','A3','C4','E4','G4','A4','G4','E4','C4','D4','R','E4','R','C4','R','R','R','E4','D4','C4','D4','E4','G4','A4','R','G4','E4','D4','C4','D4','R','R','R']},
         {type:'triangle',vol:0.04,notes:['A2','R','E3','R','A2','R','E3','R','C3','R','G3','R','C3','R','G3','R','A2','R','E3','R','A2','R','E3','R','D3','R','A3','R','E3','R','B3','R','A2','R','E3','R','A2','R','E3','R','C3','R','G3','R','C3','R','G3','R','A2','R','E3','R','C3','R','G3','R','D3','R','A3','R','G3','R','R','R']},
       ],perc:['H','R','R','R','S','R','H','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','H','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','H','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','H','R','H','R','R','R','S','R','R','R']},
-      'underwater-ruins':{bpm:140,voices:[
+      'underwater-ruins':{bpm:180,voices:[
         {type:'triangle',vol:0.06,notes:['E3','R','G3','R','B3','R','R','R','A3','R','G3','R','E3','R','R','R','D3','R','F3','R','A3','R','R','R','G3','R','F3','R','D3','R','R','R','C3','R','E3','R','G3','R','R','R','A3','R','B3','R','C4','R','R','R','B3','R','A3','R','G3','R','E3','R','D3','R','R','R','R','R','R','R']},
         {type:'sine',vol:0.04,notes:['E2','R','R','R','E2','R','R','R','D2','R','R','R','D2','R','R','R','C2','R','R','R','C2','R','R','R','A1','R','R','R','B1','R','R','R','E2','R','R','R','E2','R','R','R','D2','R','R','R','D2','R','R','R','C2','R','R','R','C2','R','R','R','B1','R','R','R','R','R','R','R']},
       ],perc:['R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R']},
-      'haunted-mansion':{bpm:150,voices:[
+      'haunted-mansion':{bpm:190,voices:[
         {type:'square',vol:0.04,notes:['E4','R','Eb4','R','E4','R','Eb4','R','E4','B3','D4','C4','A3','R','R','R','C3','E3','A3','R','R','R','B3','R','E3','Ab3','B3','R','R','R','R','R','E4','R','Eb4','R','E4','R','Eb4','R','E4','B3','D4','C4','A3','R','R','R','C3','E3','A3','R','R','R','B3','R','C4','R','A3','R','R','R','R','R']},
         {type:'triangle',vol:0.04,notes:['A2','R','R','R','A2','R','R','R','A2','R','R','R','A2','R','R','R','A2','R','R','R','E2','R','R','R','Ab2','R','R','R','E2','R','R','R','A2','R','R','R','A2','R','R','R','A2','R','R','R','A2','R','R','R','A2','R','R','R','E2','R','R','R','A2','R','R','R','R','R','R','R']},
       ],perc:['H','R','R','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','H','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','H','R','S','R','R','R']},
-      'desert-temple':{bpm:170,voices:[
+      'desert-temple':{bpm:210,voices:[
         {type:'square',vol:0.05,notes:['E4','R','F4','E4','D4','R','C4','R','D4','R','E4','R','R','R','R','R','A4','R','G4','R','E4','R','D4','R','E4','R','R','R','R','R','R','R','E4','R','F4','E4','D4','R','C4','D4','E4','R','G4','R','A4','R','R','R','G4','R','E4','R','D4','R','C4','R','D4','R','R','R','R','R','R','R']},
         {type:'sawtooth',vol:0.03,notes:['A2','R','A2','R','A3','R','A2','R','A2','R','A2','R','A3','R','A2','R','D3','R','D3','R','D4','R','D3','R','D3','R','D3','R','D4','R','D3','R','A2','R','A2','R','A3','R','A2','R','C3','R','C3','R','C4','R','C3','R','G2','R','G2','R','G3','R','G2','R','A2','R','R','R','R','R','R','R']},
       ],perc:['H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R']},
-      'space-world':{bpm:130,voices:[
-        {type:'triangle',vol:0.05,notes:['C4','R','R','E4','R','R','G4','R','R','C5','R','R','G4','R','R','R','B3','R','R','D4','R','R','G4','R','R','B4','R','R','G4','R','R','R','A3','R','R','C4','R','R','F4','R','R','A4','R','R','F4','R','R','R','G3','R','R','B3','R','R','E4','R','R','G4','R','R','E4','R','R','R']},
-        {type:'sine',vol:0.04,notes:['C2','R','R','R','C2','R','R','R','C3','R','R','R','C2','R','R','R','G2','R','R','R','G2','R','R','R','G3','R','R','R','G2','R','R','R','F2','R','R','R','F2','R','R','R','F3','R','R','R','F2','R','R','R','E2','R','R','R','E2','R','R','R','E3','R','R','R','E2','R','R','R']},
-      ],perc:['R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','H','R','R','R','R','R']},
-      'farm-world':{bpm:165,voices:[
-        {type:'square',vol:0.05,notes:['G4','R','G4','R','A4','R','B4','R','G4','R','R','R','E4','R','R','R','G4','R','G4','R','A4','R','B4','R','C5','R','R','R','R','R','R','R','D5','R','C5','R','B4','R','A4','R','G4','R','R','R','E4','R','R','R','D4','R','E4','R','G4','R','E4','R','D4','R','R','R','R','R','R','R']},
-        {type:'triangle',vol:0.04,notes:['G2','R','D3','R','G2','R','D3','R','C3','R','G3','R','C3','R','G3','R','G2','R','D3','R','G2','R','D3','R','C3','R','G3','R','C3','R','G3','R','G2','R','D3','R','G2','R','D3','R','C3','R','G3','R','C3','R','G3','R','D3','R','A3','R','D3','R','A3','R','G2','R','D3','R','R','R','R','R']},
+      'space-world':{bpm:170,voices:[
+        // Space Oddity - "Ground control to Major Tom"
+        {type:'triangle',vol:0.06,notes:['F3','R','E3','R','F3','R','G3','R','R','R','C4','R','R','R','R','R','F3','R','E3','R','F3','R','G3','R','R','R','D4','R','R','R','R','R','F3','R','E3','R','F3','R','G3','R','R','R','C4','R','R','R','R','R','Bb3','R','A3','R','G3','R','F3','R','R','R','R','R','R','R','R','R']},
+        {type:'sine',vol:0.04,notes:['F2','R','R','R','F2','R','R','R','C3','R','R','R','C2','R','R','R','F2','R','R','R','F2','R','R','R','G2','R','R','R','D3','R','R','R','F2','R','R','R','F2','R','R','R','C3','R','R','R','C2','R','R','R','Bb2','R','R','R','Bb2','R','R','R','F2','R','R','R','R','R','R','R']},
+      ],perc:['R','R','R','R','S','R','R','R','R','R','H','R','R','R','R','R','R','R','R','R','S','R','R','R','R','R','H','R','R','R','R','R','R','R','R','R','S','R','R','R','R','R','H','R','R','R','R','R','R','R','R','R','S','R','R','R','R','R','H','R','R','R','R','R']},
+      'farm-world':{bpm:210,voices:[
+        // Old MacDonald Had a Farm
+        {type:'square',vol:0.05,notes:['C4','C4','C4','G3','A3','A3','G3','R','E4','E4','D4','D4','C4','R','R','R','G4','C4','C4','C4','G3','A3','A3','G3','R','E4','E4','D4','D4','C4','R','R','R','G3','G3','C4','C4','C4','C4','G3','G3','C4','C4','C4','C4','G3','R','R','R','C4','C4','C4','G3','A3','A3','G3','R','E4','E4','D4','D4','C4','R','R','R']},
+        {type:'triangle',vol:0.04,notes:['C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','G2','R','G2','R','C3','R','C3','R','G2','R','G2','R','C3','R','C3','R','G2','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R']},
       ],perc:['H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R']},
-      'mario-world':{bpm:180,voices:[
+      'mario-world':{bpm:220,voices:[
         {type:'square',vol:0.06,notes:['E4','E4','R','E4','R','C4','E4','R','G4','R','R','R','G3','R','R','R','C4','R','R','G3','R','R','E3','R','R','A3','R','B3','R','Bb3','A3','R','G3','E4','G4','A4','R','F4','G4','R','E4','R','C4','D4','B3','R','R','R','C4','R','R','G3','R','R','E3','R','R','A3','R','B3','R','Bb3','A3','R']},
         {type:'triangle',vol:0.05,notes:['C3','R','G3','R','C3','R','G3','R','E3','R','B3','R','E3','R','B3','R','A2','R','E3','R','A2','R','E3','R','Ab2','R','Eb3','R','Ab2','R','Eb3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','C3','R','G3','R','A2','R','E3','R','A2','R','E3','R','Ab2','R','Eb3','R','Ab2','R','Eb3','R']},
       ],perc:['H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R']},
-      'trump-world':{bpm:160,voices:[
-        {type:'square',vol:0.05,notes:['C4','C4','C4','R','C4','R','R','R','G3','R','R','R','C4','R','R','R','E4','R','E4','R','D4','R','C4','R','D4','R','R','R','R','R','R','R','F4','F4','F4','R','F4','R','E4','R','E4','R','R','R','D4','R','R','R','C4','R','D4','R','E4','R','C4','R','G3','R','R','R','R','R','R','R']},
-        {type:'sawtooth',vol:0.03,notes:['C3','R','G3','R','C3','R','G3','R','E3','R','B3','R','E3','R','B3','R','F3','R','C4','R','F3','R','C4','R','G3','R','D4','R','G3','R','D4','R','C3','R','G3','R','C3','R','G3','R','F3','R','C4','R','F3','R','C4','R','G3','R','D4','R','G3','R','D4','R','C3','R','G3','R','R','R','R','R']},
-      ],perc:['H','R','R','R','S','R','R','R','H','R','H','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','H','R','S','R','H','R','H','R','R','R','S','R','R','R','H','R','H','R','S','R','R','R','H','R','R','R','S','R','R','R','H','R','H','R','S','R','H','R']},
-      victory:{bpm:190,voices:[
+      'trump-world':{bpm:190,voices:[
+        // Star-Spangled Banner - "Oh say can you see"
+        {type:'square',vol:0.05,notes:['G3','R','E3','R','C3','R','E3','R','G3','R','R','R','C4','R','R','R','R','R','R','R','E4','R','D4','R','C4','R','E3','R','G3','R','R','R','R','R','R','R','G3','R','G3','R','E4','R','R','R','D4','R','C4','R','R','R','B3','R','R','R','R','R','A3','R','B3','R','C4','R','C4','R','R','R','R','R']},
+        {type:'sawtooth',vol:0.03,notes:['C3','R','R','R','C3','R','R','R','C3','R','R','R','C3','R','R','R','C3','R','R','R','C3','R','R','R','F2','R','R','R','G2','R','R','R','C3','R','R','R','C3','R','R','R','C3','R','R','R','C3','R','R','R','G2','R','R','R','G2','R','R','R','F2','R','R','R','C3','R','R','R']},
+      ],perc:['S','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','R','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','S','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R','R','R','R','R','R','R','R','R','H','R','R','R','S','R','R','R']},
+      'dockers-world':{bpm:200,voices:[
+        // Freo Dockers - "Freo heave ho!" - bold march (Sons of the Sea)
+        {type:'square',vol:0.06,notes:['Bb3','R','Bb3','Bb3','D4','R','D4','R','F4','R','F4','R','Bb4','R','R','R','A4','R','G4','R','F4','R','D4','R','Bb3','R','R','R','R','R','R','R','Bb3','R','Bb3','Bb3','D4','R','D4','R','F4','R','A4','R','G4','R','R','R','F4','R','D4','R','Bb3','R','C4','R','D4','R','R','R','R','R','R','R']},
+        {type:'triangle',vol:0.05,notes:['Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','F2','R','C3','R','F2','R','C3','R','Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','Bb2','R','F3','R','F2','R','C3','R','F2','R','C3','R','Bb2','R','F3','R','Bb2','R','F3','R']},
+      ],perc:['H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R','H','H','S','R']},
+      'beach-world':{bpm:195,voices:[
+        // Surf rock / Wipeout style
+        {type:'square',vol:0.05,notes:['E4','E4','E4','R','E4','R','D4','E4','R','R','G4','R','E4','R','D4','R','C4','R','R','R','D4','R','E4','R','R','R','R','R','R','R','R','R','E4','E4','E4','R','E4','R','D4','E4','R','R','G4','R','A4','R','G4','R','E4','R','R','R','D4','R','C4','R','R','R','R','R','R','R','R','R']},
+        {type:'triangle',vol:0.04,notes:['A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R','A2','R','E3','R']},
+      ],perc:['H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R','H','R','H','R','S','R','H','R']},
+      victory:{bpm:230,voices:[
         {type:'square',vol:0.06,notes:['C5','C5','R','C5','R','R','G4','R','C5','R','E5','R','G5','R','R','R','E5','R','R','R','C5','R','R','R','G4','R','R','R','R','R','R','R','C5','C5','R','C5','R','R','G4','R','C5','R','E5','R','G5','R','R','R','G5','R','F5','R','E5','R','D5','R','C5','R','R','R','R','R','R','R']},
         {type:'triangle',vol:0.05,notes:['C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','E3','B3','E3','B3','E3','B3','E3','B3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','C3','G3','F3','C4','F3','C4','G3','D4','G3','D4','C3','G3','C3','G3','C3','G3','C3','G3']},
       ],perc:['H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R','H','H','R','H','S','R','H','R']},
@@ -487,7 +500,7 @@ const WORLDS=[
   }
 },
 {
-  id:'space-world',name:'Space World',icon:'\u{1F680}',description:'Collect treasures among the stars',
+  id:'space-world',name:'Artemis II',icon:'\u{1F680}',description:'Collect treasures among the stars',
   difficulty:'Medium',worldWidth:3200,gravity:0.35,jumpForce:15,
   colors:{sky:'#020210',ground:'#2a2a40',groundDk:'#1a1a30',plat:'#3a3a5a',platTop:'#5555aa',platEdge:'#2a2a45',brick:'#333355'},
   platforms:[
@@ -533,7 +546,7 @@ const WORLDS=[
   }
 },
 {
-  id:'farm-world',name:'Farm World',icon:'\u{1F33E}',description:'A peaceful farm with hidden treasure',
+  id:'farm-world',name:'Down on the Farm',icon:'\u{1F33E}',description:'A peaceful farm with hidden treasure',
   difficulty:'Easy',worldWidth:3000,gravity:0.5,jumpForce:14,
   colors:{sky:'#1a2810',ground:'#4a7a30',groundDk:'#3a6020',plat:'#6a5530',platTop:'#8a7a40',platEdge:'#5a4520',brick:'#5a4a28'},
   platforms:[
@@ -683,6 +696,133 @@ const WORLDS=[
       ctx.fillStyle='rgba(255,80,80,0.1)';for(let s=0;s<6;s++){const a=s*Math.PI/3+f*0.05;ctx.fillRect(fwx+Math.cos(a)*15,fwy+Math.sin(a)*15,4,4)}}
     if(Math.sin(f*0.009+1)>0.9){const fwx=W*0.7+Math.sin(f*0.08)*80,fwy=H*0.12;
       ctx.fillStyle='rgba(80,80,255,0.1)';for(let s=0;s<6;s++){const a=s*Math.PI/3+f*0.04;ctx.fillRect(fwx+Math.cos(a)*12,fwy+Math.sin(a)*12,4,4)}}
+  }
+},
+{
+  id:'dockers-world',name:'Freo Dockers',icon:'\u{1F3C8}',description:'Purple pride at Freo Oval!',
+  difficulty:'Medium',worldWidth:3200,gravity:0.5,jumpForce:14,
+  colors:{sky:'#1a0a2a',ground:'#2a8a30',groundDk:'#1a6a20',plat:'#5522aa',platTop:'#7733cc',platEdge:'#3a1188',brick:'#4a1a99'},
+  platforms:[
+    {x:120,yo:70,w:150,h:16},{x:380,yo:90,w:140,h:16},{x:630,yo:70,w:150,h:16},{x:880,yo:100,w:140,h:16},{x:1150,yo:80,w:160,h:16},{x:1400,yo:70,w:140,h:16},{x:1680,yo:90,w:150,h:16},{x:1930,yo:80,w:140,h:16},{x:2200,yo:70,w:150,h:16},{x:2500,yo:90,w:140,h:16},{x:2800,yo:80,w:150,h:16},
+    {x:260,yo:180,w:150,h:16},{x:660,yo:190,w:140,h:16},{x:1060,yo:180,w:160,h:16},{x:1460,yo:190,w:140,h:16},{x:1860,yo:180,w:150,h:16},{x:2350,yo:190,w:140,h:16},{x:2700,yo:180,w:150,h:16},
+    {x:200,yo:300,w:170,h:16},{x:750,yo:310,w:160,h:16},{x:1400,yo:320,w:170,h:16},{x:2000,yo:310,w:160,h:16},{x:2550,yo:300,w:170,h:16},
+  ],
+  ladders:[{x:330,yo:0,h:300},{x:830,yo:0,h:310},{x:1470,yo:0,h:320},{x:2070,yo:0,h:310},{x:2620,yo:0,h:300}],
+  movingPlatforms:[{x:500,yo:140,w:80,h:16,range:100,speed:0.8},{x:1700,yo:240,w:80,h:16,range:90,speed:0.7}],
+  powerups:[{x:500,yo:200},{x:1850,yo:310}],
+  obstacles:[
+    {type:'spike',x:520,yo:0,w:48},{type:'spike',x:1300,yo:0,w:48},{type:'spike',x:2100,yo:0,w:48},{type:'spike',x:2900,yo:0,w:48},
+    {type:'enemy',x:700,yo:0,range:140,speed:0.9,color:'#cc4422'},{type:'enemy',x:1550,yo:0,range:120,speed:1,color:'#cc4422'},{type:'enemy',x:2400,yo:0,range:100,speed:0.8,color:'#cc4422'},
+  ],
+  items:[
+    {id:'freo-guernsey',name:'Freo Guernsey',sprite:'gem',spriteColor:'#7733cc',xo:200,yo:100,points:120},
+    {id:'dockers-flag',name:'Dockers Flag',sprite:'feather',spriteColor:'#7733cc',xo:330,yo:320,points:150,challenge:true},
+    {id:'sherrin-ball',name:'Sherrin Ball',sprite:'orb',spriteColor:'#cc4422',xo:830,yo:330,points:140},
+    {id:'premiers-cup',name:'Premiership Cup',sprite:'cup',spriteColor:'#ffcc00',xo:1200,yo:100,points:180,challenge:true},
+    {id:'anchor-badge',name:'Anchor Badge',sprite:'ring',spriteColor:'#7733cc',xo:1470,yo:340,points:130},
+    {id:'freo-scarf',name:'Freo Scarf',sprite:'scroll',spriteColor:'#7733cc',xo:2070,yo:330,points:150,challenge:true},
+    {id:'footy-boots',name:'Footy Boots',sprite:'key',spriteColor:'#222222',xo:2400,yo:100,points:120},
+    {id:'nat-fyfe-hair',name:'Nat Fyfe Hair',sprite:'feather',spriteColor:'#ddbb44',xo:2600,yo:320,points:160},
+  ],
+  drawBg(ctx,W,H,camX,gY,f){
+    ctx.fillStyle='#1a0a2a';ctx.fillRect(0,0,W,H);
+    // AFL oval markings on ground
+    ctx.fillStyle='rgba(255,255,255,0.04)';const go=camX*0.3;
+    for(let i=0;i<5;i++){const cx2=i*700+350-(go%(700*5));if(cx2<-100||cx2>W+100)continue;
+      ctx.fillRect(cx2-80,gY-2,160,2);ctx.fillRect(cx2-1,gY-30,2,30);// center line + circle suggest
+      ctx.fillRect(cx2-30,gY-2,60,2);
+      // 50m arc
+      ctx.fillRect(cx2-60,gY-1,120,1)}
+    // Floodlights
+    const fo=camX*0.1;for(let i=0;i<6;i++){const fx=i*550+100-(fo%(550*6));if(fx<-20||fx>W+20)continue;
+      ctx.fillStyle='rgba(150,150,170,0.1)';ctx.fillRect(fx,H*0.02,4,gY-H*0.02);
+      ctx.fillStyle='rgba(150,150,170,0.08)';ctx.fillRect(fx-6,H*0.02,16,8);
+      // Light beams
+      ctx.fillStyle='rgba(255,255,200,0.02)';ctx.fillRect(fx-30,H*0.03,64,gY*0.5)}
+    // Big Dockers anchor logo (background)
+    const ax=W*0.5-camX*0.04;ctx.fillStyle='rgba(120,50,200,0.08)';
+    ctx.fillRect(ax-3,H*0.08,6,H*0.3);ctx.fillRect(ax-20,H*0.08+H*0.25,40,6);
+    ctx.fillRect(ax-15,H*0.08+H*0.2,4,H*0.1);ctx.fillRect(ax+11,H*0.08+H*0.2,4,H*0.1);
+    ctx.fillRect(ax-8,H*0.06,16,6);// anchor ring
+    // Purple & white streamers
+    for(let i=0;i<8;i++){const sx=(i*400+f*0.6)%(W+100)-50,sy=H*0.05+Math.sin(f*0.01+i*2)*H*0.15;
+      ctx.fillStyle=i%2===0?'rgba(120,50,200,0.12)':'rgba(255,255,255,0.08)';
+      ctx.fillRect(sx,sy,20,4);ctx.fillRect(sx+4,sy+4,12,4)}
+    // Crowd (pixel heads)
+    const co=camX*0.15;for(let i=0;i<30;i++){const cx3=i*110-(co%(110*30));if(cx3<-8||cx3>W+8)continue;
+      const bounce=Math.sin(f*0.05+i*1.5)>0.7?-3:0;
+      ctx.fillStyle=i%3===0?'rgba(120,50,200,0.12)':'rgba(200,200,200,0.06)';
+      ctx.fillRect(cx3,gY-18+bounce,8,8);ctx.fillRect(cx3+1,gY-22+bounce,6,4)}
+    // Flying footballs
+    for(let i=0;i<3;i++){const bx=(i*900+f*0.8)%(W+100)-50,by=H*0.1+Math.sin(f*0.012+i*2)*H*0.12;
+      const rot=Math.sin(f*0.04+i);ctx.fillStyle='rgba(180,80,40,0.12)';ctx.fillRect(bx,by,14,8);ctx.fillStyle='rgba(220,200,180,0.08)';ctx.fillRect(bx+5,by+1,4,6)}
+  }
+},
+{
+  id:'beach-world',name:'Leighton Beach',icon:'\u{1F3D6}',description:'Sun, sand and surf!',
+  difficulty:'Easy',worldWidth:3000,gravity:0.5,jumpForce:14,
+  colors:{sky:'#1a3a50',ground:'#ddcc88',groundDk:'#ccbb77',plat:'#aa8855',platTop:'#ccaa66',platEdge:'#886633',brick:'#997744'},
+  platforms:[
+    {x:140,yo:70,w:160,h:16},{x:400,yo:80,w:140,h:16},{x:650,yo:70,w:150,h:16},{x:900,yo:90,w:140,h:16},{x:1150,yo:80,w:160,h:16},{x:1400,yo:70,w:140,h:16},{x:1650,yo:90,w:150,h:16},{x:1900,yo:80,w:140,h:16},{x:2150,yo:70,w:150,h:16},{x:2450,yo:90,w:140,h:16},{x:2700,yo:80,w:150,h:16},
+    {x:280,yo:170,w:150,h:16},{x:680,yo:180,w:140,h:16},{x:1080,yo:170,w:160,h:16},{x:1480,yo:180,w:140,h:16},{x:1880,yo:170,w:150,h:16},{x:2300,yo:180,w:140,h:16},
+    {x:230,yo:280,w:170,h:16},{x:780,yo:290,w:160,h:16},{x:1380,yo:300,w:170,h:16},{x:1980,yo:290,w:160,h:16},{x:2500,yo:280,w:170,h:16},
+  ],
+  ladders:[{x:350,yo:0,h:280},{x:850,yo:0,h:290},{x:1450,yo:0,h:300},{x:2050,yo:0,h:290},{x:2570,yo:0,h:280}],
+  movingPlatforms:[{x:550,yo:130,w:80,h:16,range:80,speed:0.7},{x:1750,yo:220,w:80,h:16,range:70,speed:0.6}],
+  powerups:[{x:480,yo:190},{x:1880,yo:290}],
+  obstacles:[
+    {type:'spike',x:530,yo:0,w:48},{type:'spike',x:1250,yo:0,w:48},{type:'spike',x:2050,yo:0,w:48},
+    {type:'enemy',x:700,yo:0,range:130,speed:0.8,color:'#cc4444'},{type:'enemy',x:1550,yo:0,range:110,speed:0.9,color:'#cc4444'},{type:'enemy',x:2400,yo:0,range:100,speed:0.8,color:'#cc4444'},
+  ],
+  items:[
+    {id:'golden-shell',name:'Golden Shell',sprite:'gem',spriteColor:'#ffcc44',xo:200,yo:100,points:100},
+    {id:'surf-wax',name:'Surf Wax',sprite:'potion',spriteColor:'#44ccdd',xo:350,yo:310,points:140,challenge:true},
+    {id:'treasure-map',name:'Treasure Map',sprite:'scroll',spriteColor:'#ccaa66',xo:850,yo:320,points:130},
+    {id:'pearl-necklace',name:'Pearl Necklace',sprite:'ring',spriteColor:'#eeeeff',xo:1200,yo:100,points:150,challenge:true},
+    {id:'pirate-coin',name:'Pirate Coin',sprite:'gem',spriteColor:'#ddaa22',xo:1450,yo:330,points:120},
+    {id:'sunscreen',name:'Sunscreen',sprite:'potion',spriteColor:'#ffffff',xo:2050,yo:320,points:110,challenge:true},
+    {id:'surfboard-fin',name:'Surfboard Fin',sprite:'key',spriteColor:'#4488cc',xo:2400,yo:100,points:160},
+    {id:'coconut',name:'Coconut',sprite:'orb',spriteColor:'#886633',xo:2560,yo:310,points:140},
+  ],
+  drawBg(ctx,W,H,camX,gY,f){
+    // Sky gradient (bands of blue)
+    ctx.fillStyle='#4488cc';ctx.fillRect(0,0,W,H*0.3);ctx.fillStyle='#66aadd';ctx.fillRect(0,H*0.3,W,H*0.15);ctx.fillStyle='#88ccee';ctx.fillRect(0,H*0.45,W,H*0.15);
+    // Ocean
+    ctx.fillStyle='#2266aa';ctx.fillRect(0,H*0.6,W,gY-H*0.6);
+    // Waves (animated)
+    for(let i=0;i<20;i++){const wx=(i*160+f*0.4-camX*0.1)%(W+80)-40,wy=H*0.6+Math.sin(f*0.02+i*0.8)*4+i%3*8;
+      ctx.fillStyle='rgba(100,180,240,0.15)';ctx.fillRect(wx,wy,80,3);ctx.fillStyle='rgba(255,255,255,0.08)';ctx.fillRect(wx+10,wy-1,30,2)}
+    // Big sun
+    ctx.fillStyle='#ffdd44';ctx.fillRect(W*0.82-18,16,36,36);ctx.fillStyle='#ffee66';ctx.fillRect(W*0.82-12,22,24,24);
+    ctx.fillStyle='rgba(255,221,68,0.03)';ctx.fillRect(W*0.82-40,6,80,56);
+    // Sun rays
+    for(let i=0;i<8;i++){const a=i*Math.PI/4+f*0.005;const rx=W*0.82+Math.cos(a)*40,ry=34+Math.sin(a)*40;
+      ctx.fillStyle='rgba(255,238,100,0.04)';ctx.fillRect(rx-2,ry-2,4,20)}
+    // Clouds
+    for(let i=0;i<4;i++){const cx2=(i*400+f*0.15-camX*0.03)%(W+200)-100,cy2=20+i*18;ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fillRect(cx2+10,cy2,50,12);ctx.fillRect(cx2,cy2+4,70,12);ctx.fillRect(cx2+12,cy2+14,40,6)}
+    // Palm trees (large, parallax)
+    const po=camX*0.12;for(let i=0;i<6;i++){const px2=i*500+80-(po%(500*6));if(px2<-40||px2>W+40)continue;
+      const sway=Math.sin(f*0.01+i)*5;
+      // Trunk
+      ctx.fillStyle='rgba(140,100,50,0.2)';ctx.fillRect(px2-3+sway*0.2,gY-70,8,70);ctx.fillRect(px2-2+sway*0.3,gY-75,6,10);
+      // Fronds
+      ctx.fillStyle='rgba(40,140,40,0.15)';
+      ctx.fillRect(px2-25+sway,gY-80,30,8);ctx.fillRect(px2+5+sway,gY-82,25,8);ctx.fillRect(px2-20+sway,gY-75,20,6);ctx.fillRect(px2+10+sway,gY-76,18,6);
+      // Coconuts
+      ctx.fillStyle='rgba(120,80,30,0.12)';ctx.fillRect(px2+sway,gY-74,5,5);ctx.fillRect(px2+4+sway,gY-72,5,5)}
+    // Surfboards stuck in sand
+    const so=camX*0.2;for(let i=0;i<4;i++){const sx2=i*700+200-(so%(700*4));if(sx2<-10||sx2>W+10)continue;
+      ctx.fillStyle=['rgba(220,60,60,0.12)','rgba(60,160,220,0.12)','rgba(220,220,60,0.12)','rgba(60,220,120,0.12)'][i];
+      ctx.fillRect(sx2,gY-35,6,30);ctx.fillRect(sx2+1,gY-40,4,8)}
+    // Seagulls
+    for(let i=0;i<4;i++){const gx=(i*700+f*0.8)%(W+100)-50,gy2=H*0.1+Math.sin(f*0.012+i*2.5)*20;
+      const wing=Math.sin(f*0.07+i)*5;ctx.fillStyle='rgba(240,240,240,0.15)';
+      ctx.fillRect(gx,gy2,4,3);ctx.fillRect(gx-6-wing,gy2-1,6,2);ctx.fillRect(gx+4+wing,gy2-1,6,2)}
+    // Beach umbrella
+    const uo=camX*0.18;for(let i=0;i<3;i++){const ux=i*900+300-(uo%(900*3));if(ux<-30||ux>W+30)continue;
+      ctx.fillStyle='rgba(180,180,180,0.08)';ctx.fillRect(ux,gY-40,3,40);
+      ctx.fillStyle=i%2===0?'rgba(220,60,60,0.1)':'rgba(60,60,220,0.1)';ctx.fillRect(ux-15,gY-44,33,8);
+      ctx.fillStyle=i%2===0?'rgba(240,240,240,0.08)':'rgba(220,220,60,0.08)';ctx.fillRect(ux-12,gY-44,12,8)}
   }
 },
 ];
@@ -928,8 +1068,17 @@ class PlatformerEngine {
     const wid=this.world?.id;
     if(wid==='trump-world'){
       // MAGA hat (red cap)
-      ctx.fillStyle='#dd2020';ctx.fillRect(ox+2,-5,26,7);ctx.fillRect(ox,-1,30,4);
-      ctx.fillStyle='#fff';ctx.fillRect(ox+6,-3,18,2); // MAGA text band
+      ctx.fillStyle='#dd2020';ctx.fillRect(ox+2,-7,26,9);ctx.fillRect(ox-1,-1,32,4);
+      // MAGA text pixel-spelled
+      ctx.fillStyle='#fff';
+      // M
+      ctx.fillRect(ox+4,-5,1,5);ctx.fillRect(ox+5,-4,1,1);ctx.fillRect(ox+6,-3,1,1);ctx.fillRect(ox+7,-4,1,1);ctx.fillRect(ox+8,-5,1,5);
+      // A
+      ctx.fillRect(ox+10,-5,1,5);ctx.fillRect(ox+11,-5,2,1);ctx.fillRect(ox+13,-5,1,5);ctx.fillRect(ox+11,-3,2,1);
+      // G
+      ctx.fillRect(ox+15,-5,3,1);ctx.fillRect(ox+15,-5,1,5);ctx.fillRect(ox+15,-1,3,1);ctx.fillRect(ox+17,-3,1,3);ctx.fillRect(ox+16,-3,1,1);
+      // A
+      ctx.fillRect(ox+19,-5,1,5);ctx.fillRect(ox+20,-5,2,1);ctx.fillRect(ox+22,-5,1,5);ctx.fillRect(ox+20,-3,2,1);
     }else if(wid==='space-world'){
       // Space helmet (glass dome over head)
       ctx.fillStyle='rgba(150,200,255,0.25)';ctx.fillRect(ox+1,-6,28,20);
@@ -983,6 +1132,27 @@ class PlatformerEngine {
       // Side flaps
       ctx.fillStyle='#ddaa22';ctx.fillRect(ox-4,2,6,14);ctx.fillRect(ox+28,2,6,14);
       ctx.fillStyle='#2244aa';ctx.fillRect(ox-3,6,4,2);ctx.fillRect(ox+29,6,4,2);ctx.fillRect(ox-3,10,4,2);ctx.fillRect(ox+29,10,4,2);
+    }else if(wid==='dockers-world'){
+      // Freo Dockers guernsey + cap
+      // Purple cap
+      ctx.fillStyle='#6622cc';ctx.fillRect(ox+2,-5,26,6);ctx.fillRect(ox-2,-1,34,3);
+      // White anchor on cap
+      ctx.fillStyle='#fff';ctx.fillRect(ox+13,-4,4,1);ctx.fillRect(ox+14,-3,2,3);ctx.fillRect(ox+11,-1,8,1);
+      // Purple V on shirt
+      ctx.fillStyle='#6622cc';ctx.fillRect(ox+5,18,6,3);ctx.fillRect(ox+19,18,6,3);
+      ctx.fillRect(ox+8,21,5,2);ctx.fillRect(ox+17,21,5,2);
+      ctx.fillRect(ox+11,23,8,2);
+    }else if(wid==='beach-world'){
+      // Bucket hat + sunglasses + board shorts pattern
+      ctx.fillStyle='#ffee44';ctx.fillRect(ox+1,-6,28,7);ctx.fillRect(ox-3,-1,36,3);
+      ctx.fillStyle='#ffcc22';ctx.fillRect(ox+3,-5,24,2);
+      // Flower on hat
+      ctx.fillStyle='#ff4488';ctx.fillRect(ox+20,-5,4,4);ctx.fillStyle='#ffcc00';ctx.fillRect(ox+21,-4,2,2);
+      // Sunglasses
+      ctx.fillStyle='#111';ctx.fillRect(ox+6,6,8,5);ctx.fillRect(ox+16,6,8,5);ctx.fillRect(ox+14,7,2,2);
+      ctx.fillStyle='#4488cc';ctx.fillRect(ox+7,7,6,3);ctx.fillRect(ox+17,7,6,3);
+      // Boardshorts pattern (flower)
+      ctx.fillStyle='#ff6644';ctx.fillRect(ox+8,34,3,3);ctx.fillRect(ox+18,36,3,3);
     }
     ctx.restore();
   }
