@@ -72,10 +72,10 @@ class MusicEngine {
         {type:'square',vol:0.04,notes:['E4','Eb4','E4','Eb4','E4','B3','D4','C4','A3','R','C3','E3','A3','B3','E3','Ab3','B3','R','E4','Eb4','E4','Eb4','E4','B3','D4','C4','A3','R','C3','E3','A3','B3','C4','A3','R','R']},
         {type:'triangle',vol:0.04,notes:['A2','A2','A2','A2','A2','A2','A2','A2','A2','A2','E2','E2','Ab2','Ab2','E2','E2','A2','A2','A2','A2','A2','A2','A2','A2','A2','A2','E2','E2','A2','A2','A2','A2','A2','A2','R','R']},
       ],perc:['H','R','S','R','H','R','S','R','H','R','S','R','H','H','S','R','H','R','S','R','H','R','S','R','H','R','S','R','H','R','S','R','H','R','S','R']},
-      'desert-temple':{bpm:180,voices:[
-        {type:'square',vol:0.05,notes:['E4','F4','E4','D4','C4','D4','E4','R','A4','G4','E4','D4','E4','R','E4','F4','E4','D4','C4','D4','E4','G4','A4','R','G4','E4','D4','C4','D4','R']},
-        {type:'sawtooth',vol:0.03,notes:['A2','A2','A3','A2','A2','A2','A3','A2','D3','D3','D4','D3','D3','D3','A2','A2','A3','A2','C3','C3','C4','C3','G2','G2','G3','G2','A2','A2','A2','R']},
-      ],perc:['H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R']},
+      'richmond-ps':{bpm:140,voices:[
+        {type:'square',vol:0.05,notes:['C4','C4','G4','G4','A4','A4','G4','R','F4','F4','E4','E4','D4','D4','C4','R','G4','G4','F4','F4','E4','E4','D4','R','G4','G4','F4','F4','E4','E4','D4','R']},
+        {type:'triangle',vol:0.04,notes:['C3','C3','E3','E3','F3','F3','E3','R','D3','D3','C3','C3','B2','B2','C3','R','E3','E3','D3','D3','C3','C3','B2','R','E3','E3','D3','D3','C3','C3','B2','R']},
+      ],perc:['H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S','H','R','H','S']},
       'space-world':{bpm:150,voices:[
         {type:'triangle',vol:0.06,notes:['F3','E3','F3','G3','C4','R','F3','E3','F3','G3','D4','R','F3','E3','F3','G3','C4','R','Bb3','A3','G3','F3','R','R']},
         {type:'sine',vol:0.04,notes:['F2','F2','C3','C3','C2','C2','F2','F2','G2','G2','D3','D3','F2','F2','C3','C3','C2','C2','Bb2','Bb2','F2','F2','R','R']},
@@ -437,9 +437,9 @@ const WORLDS=[
   }
 },
 {
-  id:'desert-temple',name:'Desert Temple',icon:'\u{1F3DB}',description:'An ancient 8-bit temple',
+  id:'richmond-ps',name:'Richmond P.S.',icon:'\u{1F3EB}',description:'A classic primary school',
   difficulty:'Expert',worldWidth:3400,gravity:0.5,jumpForce:14,
-  colors:{sky:'#1a1510',ground:'#5a4528',groundDk:'#3a2a18',plat:'#6a5530',platTop:'#8a7040',platEdge:'#4a3518',brick:'#5a4a28'},
+  colors:{sky:'#6699cc',ground:'#4a8844',groundDk:'#3a6a34',plat:'#994433',platTop:'#bb5544',platEdge:'#773322',brick:'#884433'},
   platforms:[
     {x:150,yo:70,w:150,h:16},{x:400,yo:80,w:160,h:16},{x:650,yo:70,w:140,h:16},{x:900,yo:90,w:150,h:16},{x:1150,yo:80,w:140,h:16},{x:1450,yo:70,w:150,h:16},{x:1700,yo:90,w:140,h:16},{x:1950,yo:80,w:160,h:16},{x:2200,yo:70,w:140,h:16},{x:2500,yo:90,w:150,h:16},{x:2750,yo:80,w:140,h:16},{x:3050,yo:70,w:150,h:16},
     {x:250,yo:180,w:160,h:16},{x:700,yo:190,w:150,h:16},{x:1100,yo:180,w:160,h:16},{x:1550,yo:190,w:150,h:16},{x:1950,yo:180,w:160,h:16},{x:2400,yo:190,w:150,h:16},{x:2900,yo:180,w:160,h:16},
@@ -454,49 +454,68 @@ const WORLDS=[
     {type:'enemy',x:580,yo:0,range:130,speed:0.9,color:'#aa6622'},{type:'enemy',x:1100,yo:0,range:110,speed:1,color:'#cc4422'},{type:'enemy',x:1850,yo:0,range:120,speed:0.8,color:'#aa6622'},{type:'enemy',x:2400,yo:0,range:100,speed:1,color:'#cc4422'},{type:'enemy',x:2900,yo:0,range:90,speed:0.9,color:'#aa6622'},
   ],
   items:[
-    {id:'scarab-amulet',name:'Scarab Amulet',sprite:'ring',spriteColor:'#ffcc00',xo:310,yo:340,points:150},
-    {id:'pharaohs-eye',name:"Pharaoh's Eye",sprite:'skull',spriteColor:'#ffcc00',xo:760,yo:350,points:180,challenge:true},
-    {id:'sun-disk',name:'Sun Disk',sprite:'orb',spriteColor:'#ffaa44',xo:1150,yo:210,points:160},
-    {id:'sand-hourglass',name:'Sand Hourglass',sprite:'potion',spriteColor:'#ddaa44',xo:1410,yo:360,points:140,challenge:true},
-    {id:'golden-ankh',name:'Golden Ankh',sprite:'key',spriteColor:'#ffcc00',xo:1950,yo:110,points:170},
-    {id:'sacred-scroll',name:'Sacred Scroll',sprite:'scroll',spriteColor:'#ccbb88',xo:1960,yo:350,points:130},
-    {id:'oasis-gem',name:'Oasis Gem',sprite:'gem',spriteColor:'#44ddcc',xo:2560,yo:340,points:150,challenge:true},
-    {id:'sphinx-stone',name:'Sphinx Stone',sprite:'skull',spriteColor:'#ccaa77',xo:3060,yo:350,points:200},
+    {id:'gold-star',name:'Gold Star',sprite:'orb',spriteColor:'#ffcc00',xo:310,yo:340,points:150},
+    {id:'maths-trophy',name:'Maths Trophy',sprite:'cup',spriteColor:'#ffaa22',xo:760,yo:350,points:180,challenge:true},
+    {id:'school-bell',name:'School Bell',sprite:'music',spriteColor:'#ddaa00',xo:1150,yo:210,points:160},
+    {id:'library-book',name:'Library Book',sprite:'scroll',spriteColor:'#cc5533',xo:1410,yo:360,points:140,challenge:true},
+    {id:'sports-medal',name:'Sports Medal',sprite:'ring',spriteColor:'#ffcc44',xo:1950,yo:110,points:170},
+    {id:'pencil-case',name:'Pencil Case',sprite:'potion',spriteColor:'#4488cc',xo:1960,yo:350,points:130},
+    {id:'lunch-order',name:'Lunch Order',sprite:'key',spriteColor:'#44bb44',xo:2560,yo:340,points:150,challenge:true},
+    {id:'principals-award',name:"Principal's Award",sprite:'gem',spriteColor:'#cc44ff',xo:3060,yo:350,points:200},
   ],
   drawBg(ctx,W,H,camX,gY,f){
-    // Sky gradient (bands)
-    ctx.fillStyle='#1a1510';ctx.fillRect(0,0,W,H);ctx.fillStyle='#2a1e14';ctx.fillRect(0,0,W,H*0.3);ctx.fillStyle='#221810';ctx.fillRect(0,H*0.3,W,H*0.2);
-    // Big sun with glow
-    ctx.fillStyle='#ffcc60';ctx.fillRect(W*0.78-14,H*0.08,28,28);ctx.fillStyle='#ffaa40';ctx.fillRect(W*0.78-10,H*0.08+4,20,20);
-    ctx.fillStyle='rgba(255,170,64,0.04)';ctx.fillRect(W*0.78-40,H*0.06-10,80,60);
-    // Heat shimmer (wavy horizontal lines)
-    ctx.fillStyle='rgba(255,200,100,0.03)';for(let y=gY-80;y<gY;y+=6){const w2=Math.sin(f*0.02+y*0.1)*8;ctx.fillRect(w2,y,W,2)}
-    // Big dunes (parallax)
-    const dO=camX*0.08;ctx.fillStyle='rgba(70,50,25,0.2)';for(let i=0;i<8;i++){const dx=i*400-(dO%(400*8));ctx.fillRect(dx-100,gY-12,200,14);ctx.fillRect(dx-80,gY-18,160,8)}
-    // Temple silhouettes (large, detailed)
-    const tO=camX*0.15;for(let i=0;i<3;i++){const tx=i*1100+200-(tO%(1100*3));if(tx<-120||tx>W+120)continue;ctx.fillStyle='rgba(50,35,20,0.25)';
-      ctx.fillRect(tx-50,gY-100,100,100);ctx.fillRect(tx-40,gY-120,80,25);ctx.fillRect(tx-30,gY-135,60,18);ctx.fillRect(tx-20,gY-145,40,12);
-      // Temple door
-      ctx.fillStyle='rgba(30,20,10,0.3)';ctx.fillRect(tx-10,gY-60,20,60);
-      // Hieroglyphics
-      ctx.fillStyle='rgba(200,160,60,0.06)';for(let h=0;h<4;h++)ctx.fillRect(tx-35+h*20,gY-90+h*5,8,8)}
-    // Circling vultures
-    for(let i=0;i<3;i++){const angle=f*0.008+i*2.1;const vr=60+i*20;
-      const vx=W*0.5+Math.cos(angle)*vr-camX*0.05,vy=H*0.1+Math.sin(angle)*vr*0.4+i*15;
-      ctx.fillStyle='rgba(40,25,15,0.25)';ctx.fillRect(vx,vy,8,4);
-      const wing=Math.sin(f*0.06+i)*8;ctx.fillRect(vx-10-wing,vy-1,10,3);ctx.fillRect(vx+8+wing,vy-1,10,3)}
-    // Tumbleweeds rolling across
-    for(let i=0;i<3;i++){const twX=(i*1200+f*1.5)%(W+200)-100,twY=gY-12-Math.abs(Math.sin(f*0.03+i*2))*15;
-      const rot=f*0.05+i;ctx.fillStyle='rgba(120,90,40,0.2)';ctx.fillRect(twX-8,twY-8,16,16);ctx.fillStyle='rgba(100,70,30,0.15)';ctx.fillRect(twX-6,twY-10,12,4);ctx.fillRect(twX-10,twY-4,4,8)}
-    // Torches with big flames
-    const fO=camX*0.3;for(let i=0;i<6;i++){const ttx=i*600+100-(fO%(600*6));if(ttx<-15||ttx>W+15)continue;
-      ctx.fillStyle='#5a4020';ctx.fillRect(ttx-2,gY-40,6,28);
-      const fl=Math.sin(f*0.12+i*1.5);ctx.fillStyle=fl>0?'#ff8020':'#ffaa40';ctx.fillRect(ttx-4,gY-48,10,10);
-      ctx.fillStyle=fl>0.3?'#ffcc60':'#ff9030';ctx.fillRect(ttx-2,gY-52,6,6);
-      ctx.fillStyle='rgba(255,140,40,0.06)';ctx.fillRect(ttx-18,gY-55,40,30)}
-    // Dust clouds drifting
-    for(let i=0;i<6;i++){const px2=(i*500+f*0.8)%(W+40)-20,py2=gY-6-Math.sin(f*0.01+i)*12;
-      ctx.fillStyle='rgba(180,140,80,0.08)';ctx.fillRect(px2-10,py2-4,20,8);ctx.fillRect(px2-6,py2-8,12,6)}
+    // Blue sky gradient
+    ctx.fillStyle='#88bbee';ctx.fillRect(0,0,W,H);ctx.fillStyle='#6699cc';ctx.fillRect(0,H*0.3,W,H*0.7);ctx.fillStyle='#5588bb';ctx.fillRect(0,H*0.6,W,H*0.4);
+    // Sun
+    ctx.fillStyle='#ffdd44';ctx.fillRect(W*0.82-12,H*0.06,24,24);ctx.fillStyle='#ffee88';ctx.fillRect(W*0.82-8,H*0.06+4,16,16);
+    // Fluffy clouds
+    for(let i=0;i<5;i++){const cx=(i*350+f*0.3+100)%(W+200)-100,cy=H*0.08+i*18;
+      ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fillRect(cx,cy,60,14);ctx.fillRect(cx+10,cy-6,40,10);ctx.fillRect(cx+5,cy+8,50,8)}
+    // Grass field (foreground)
+    ctx.fillStyle='#55aa44';ctx.fillRect(0,gY-4,W,H-gY+4);ctx.fillStyle='#4a9a3a';ctx.fillRect(0,gY-2,W,2);
+    // Low redbrick school buildings (parallax)
+    const bO=camX*0.12;for(let i=0;i<4;i++){const bx=i*900+80-(bO%(900*4));if(bx<-200||bx>W+200)continue;
+      // Main building body - red brick
+      ctx.fillStyle='#993322';ctx.fillRect(bx-80,gY-80,160,80);
+      // Brick pattern
+      ctx.fillStyle='#aa4433';for(let r=0;r<6;r++)for(let c=0;c<8;c++){const bxo=bx-76+c*20,byo=gY-76+r*12+(r%2)*10;ctx.fillRect(bxo,byo,18,10)}
+      // Mortar lines
+      ctx.fillStyle='#ccaa88';for(let r=0;r<7;r++)ctx.fillRect(bx-80,gY-80+r*12,160,1);
+      // Red tile roof
+      ctx.fillStyle='#cc3322';ctx.fillRect(bx-90,gY-100,180,22);ctx.fillStyle='#dd4433';ctx.fillRect(bx-85,gY-98,170,8);
+      // Roof ridge
+      ctx.fillStyle='#bb2222';ctx.fillRect(bx-85,gY-100,170,3);
+      // Windows
+      ctx.fillStyle='#88ccee';ctx.fillRect(bx-55,gY-65,22,20);ctx.fillRect(bx-10,gY-65,22,20);ctx.fillRect(bx+35,gY-65,22,20);
+      // Window frames
+      ctx.fillStyle='#fff';ctx.fillRect(bx-55,gY-55,22,1);ctx.fillRect(bx-44,gY-65,1,20);
+      ctx.fillRect(bx-10,gY-55,22,1);ctx.fillRect(bx+1,gY-65,1,20);
+      ctx.fillRect(bx+35,gY-55,22,1);ctx.fillRect(bx+46,gY-65,1,20);
+      // Door
+      ctx.fillStyle='#553311';ctx.fillRect(bx-8,gY-40,16,40);ctx.fillStyle='#ddaa33';ctx.fillRect(bx+4,gY-22,3,3)}
+    // Mulberry trees (parallax, between buildings)
+    const tO=camX*0.18;for(let i=0;i<5;i++){const tx=i*700+400-(tO%(700*5));if(tx<-60||tx>W+60)continue;
+      // Trunk
+      ctx.fillStyle='#664422';ctx.fillRect(tx-4,gY-70,10,70);ctx.fillStyle='#553318';ctx.fillRect(tx-2,gY-70,6,70);
+      // Branches
+      ctx.fillStyle='#664422';ctx.fillRect(tx-16,gY-65,14,5);ctx.fillRect(tx+8,gY-60,14,5);
+      // Canopy (dense, rounded)
+      ctx.fillStyle='#336622';ctx.fillRect(tx-30,gY-110,62,42);ctx.fillRect(tx-24,gY-118,50,12);ctx.fillRect(tx-34,gY-100,70,28);
+      // Leaf highlights
+      ctx.fillStyle='#448833';ctx.fillRect(tx-20,gY-112,16,8);ctx.fillRect(tx+6,gY-108,14,8);ctx.fillRect(tx-28,gY-96,18,10);
+      // Mulberries (dark purple clusters)
+      ctx.fillStyle='#662266';ctx.fillRect(tx-18,gY-88,4,4);ctx.fillRect(tx+8,gY-92,4,4);ctx.fillRect(tx-8,gY-82,4,4);ctx.fillRect(tx+18,gY-86,4,4);ctx.fillRect(tx-24,gY-78,4,4);ctx.fillRect(tx+12,gY-80,4,4);
+      ctx.fillStyle='#882288';ctx.fillRect(tx-16,gY-86,2,2);ctx.fillRect(tx+10,gY-90,2,2);ctx.fillRect(tx+14,gY-78,2,2)}
+    // Flagpole with Australian flag
+    const fpx=W*0.15-camX*0.05;ctx.fillStyle='#bbbbbb';ctx.fillRect(fpx,gY-120,3,120);
+    ctx.fillStyle='#2233aa';ctx.fillRect(fpx+3,gY-118,20,12);ctx.fillStyle='#fff';ctx.fillRect(fpx+5,gY-116,4,3);
+    ctx.fillStyle='#dd2222';ctx.fillRect(fpx+4,gY-117,6,1);ctx.fillRect(fpx+6,gY-118,2,3);
+    // Birds sitting on wires
+    for(let i=0;i<4;i++){const bx2=W*0.2+i*120-camX*0.04,by2=H*0.22+Math.sin(f*0.02+i)*3;
+      ctx.fillStyle='rgba(40,30,20,0.3)';ctx.fillRect(bx2,by2,6,4);ctx.fillRect(bx2+1,by2-2,4,3);ctx.fillRect(bx2-3,by2+1,3,2);ctx.fillRect(bx2+6,by2+1,3,2)}
+    // Fallen mulberries on ground (staining!)
+    for(let i=0;i<8;i++){const mx=(i*420+170)%(W+20)-10-camX*0.18;
+      ctx.fillStyle='rgba(80,20,60,0.15)';ctx.fillRect(mx-3,gY-3,8,3);ctx.fillStyle='#662266';ctx.fillRect(mx,gY-5,3,3)}
   }
 },
 {
@@ -1187,13 +1206,20 @@ class PlatformerEngine {
       ctx.fillStyle='#44aa44';ctx.fillRect(ox+4,-5,22,3);
       // Feather in hat
       ctx.fillStyle='#ff4444';ctx.fillRect(ox+22,-8,3,4);ctx.fillRect(ox+24,-10,2,3);
-    }else if(wid==='desert-temple'){
-      // Pharaoh headdress (gold/blue stripes)
-      ctx.fillStyle='#ddaa22';ctx.fillRect(ox,-4,30,6);ctx.fillRect(ox-3,0,36,3);
-      ctx.fillStyle='#2244aa';ctx.fillRect(ox+2,-3,26,2);
-      // Side flaps
-      ctx.fillStyle='#ddaa22';ctx.fillRect(ox-4,2,6,14);ctx.fillRect(ox+28,2,6,14);
-      ctx.fillStyle='#2244aa';ctx.fillRect(ox-3,6,4,2);ctx.fillRect(ox+29,6,4,2);ctx.fillRect(ox-3,10,4,2);ctx.fillRect(ox+29,10,4,2);
+    }else if(wid==='richmond-ps'){
+      // Navy school hat (bucket/legionnaire style)
+      ctx.fillStyle='#1a2255';ctx.fillRect(ox+2,-6,26,8);ctx.fillRect(ox-2,-1,34,3);
+      ctx.fillStyle='#222a66';ctx.fillRect(ox+4,-5,22,3);
+      // Hat brim
+      ctx.fillStyle='#1a2255';ctx.fillRect(ox-4,-1,38,3);
+      // Yellow school shirt overlay
+      ctx.fillStyle='#eebb22';ctx.fillRect(ox+3,18,24,16);ctx.fillStyle='#ddaa11';ctx.fillRect(ox+3,18,24,2);
+      // Navy emblem on shirt (shield shape)
+      ctx.fillStyle='#1a2255';ctx.fillRect(ox+10,22,10,8);ctx.fillRect(ox+11,21,8,1);ctx.fillRect(ox+12,30,6,1);ctx.fillRect(ox+13,31,4,1);
+      // R on emblem
+      ctx.fillStyle='#eebb22';ctx.fillRect(ox+12,23,2,5);ctx.fillRect(ox+14,23,2,1);ctx.fillRect(ox+16,24,1,1);ctx.fillRect(ox+14,25,2,1);ctx.fillRect(ox+15,26,1,2);
+      // Navy shorts
+      ctx.fillStyle='#1a2255';ctx.fillRect(ox+5,34,20,10);ctx.fillStyle='#152050';ctx.fillRect(ox+14,34,2,10);
     }else if(wid==='dockers-world'){
       // Freo Dockers guernsey + cap
       // Purple cap
@@ -1235,6 +1261,14 @@ class App {
   showScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));requestAnimationFrame(()=>{const s=document.getElementById(`screen-${name}`);if(s)s.classList.add('active')});this.currentScreen=name}
 
   bindEvents(){
+    document.getElementById('btn-credits').addEventListener('click',()=>{
+      try{sound.playClick()}catch(e){}
+      document.getElementById('credits-overlay').classList.remove('hidden');
+    });
+    document.getElementById('btn-credits-close').addEventListener('click',()=>{
+      try{sound.playClick()}catch(e){}
+      document.getElementById('credits-overlay').classList.add('hidden');
+    });
     document.getElementById('btn-start').addEventListener('click',()=>{
       try{sound.init()}catch(e){}
       try{sound.playClick()}catch(e){}
