@@ -437,7 +437,7 @@ const WORLDS=[
   }
 },
 {
-  id:'richmond-ps',name:'Richmond P.S.',icon:'\u{1F3EB}',description:'A classic primary school',
+  id:'richmond-ps',name:'Our School',icon:'\u{1F3EB}',description:'A classic primary school',
   difficulty:'Expert',worldWidth:3400,gravity:0.5,jumpForce:14,
   colors:{sky:'#6699cc',ground:'#4a8844',groundDk:'#3a6a34',plat:'#994433',platTop:'#bb5544',platEdge:'#773322',brick:'#884433'},
   platforms:[
@@ -542,7 +542,7 @@ const WORLDS=[
     {id:'asteroid-ore',name:'Asteroid Ore',sprite:'gem',spriteColor:'#cc8844',xo:1420,yo:340,points:160},
     {id:'space-compass',name:'Space Compass',sprite:'compass',spriteColor:'#6688ff',xo:2020,yo:330,points:140,challenge:true},
     {id:'nebula-gem',name:'Nebula Gem',sprite:'orb',spriteColor:'#cc44ff',xo:2350,yo:100,points:170},
-    {id:'cosmic-key',name:'Cosmic Key',sprite:'key',spriteColor:'#ffcc44',xo:2600,yo:320,points:120},
+    {id:'nutella-jar',name:'Nutella',sprite:'potion',spriteColor:'#663311',xo:2600,yo:320,points:120},
   ],
   drawBg(ctx,W,H,camX,gY,f){
     ctx.fillStyle='#020210';ctx.fillRect(0,0,W,H);
@@ -1504,9 +1504,11 @@ class App {
     document.getElementById('stat-challenges').textContent=this.challengesSolved;
     document.getElementById('stat-score').textContent=total;
     const allDone=this.worldProgress.every(p=>p.completed);
+    sound.playSuccess();music.stop();if(this.engine)this.engine.unmount();
+    if(allDone){this.showVictory();return}
     const ws=document.getElementById('btn-to-worlds');
-    ws.textContent=allDone?'VICTORY!':'WORLD SELECT';
-    ws.onclick=()=>{sound.playClick();allDone?this.showVictory():this.showWorldSelect()};
+    ws.textContent='WORLD SELECT';
+    ws.onclick=()=>{sound.playClick();this.showWorldSelect()};
     // Next level button
     const nl=document.getElementById('btn-next-world');
     const nextIdx=(this.currentWorldIndex+1)%WORLDS.length;
@@ -1515,9 +1517,36 @@ class App {
     // Random level button
     const rl=document.getElementById('btn-random-world');
     rl.onclick=()=>{sound.playClick();const ri=Math.floor(Math.random()*WORLDS.length);this.startWorld(ri)};
-    sound.playSuccess();music.stop();if(this.engine)this.engine.unmount();this.showScreen('complete');
+    this.showScreen('complete');
   }
-  showVictory(){const ts=this.worldProgress.reduce((s,p)=>s+p.score,0),tt=this.worldProgress.reduce((s,p)=>s+p.time,0),ti=WORLDS.reduce((s,w)=>s+w.items.length,0);document.getElementById('victory-score').textContent=ts;document.getElementById('victory-time').textContent=formatTime(tt);document.getElementById('victory-items').textContent=`${ti}/${ti}`;this._pendingScore=ts;document.getElementById('hs-entry').style.display='block';music.playTrack('victory');this.showScreen('victory')}
+  showVictory(){
+    const ts=this.worldProgress.reduce((s,p)=>s+p.score,0),tt=this.worldProgress.reduce((s,p)=>s+p.time,0),ti=WORLDS.reduce((s,w)=>s+w.items.length,0);
+    document.getElementById('victory-score').textContent=ts;document.getElementById('victory-time').textContent=formatTime(tt);document.getElementById('victory-items').textContent=`${ti}/${ti}`;
+    this._pendingScore=ts;document.getElementById('hs-entry').style.display='block';music.playTrack('victory');
+    // Build credits roll
+    const credBox=document.getElementById('credits-overlay');
+    const credits=[
+      ['A Game By','Lewis Games Inc.'],
+      ['Lead Developer','Dad'],
+      ['Game Design','Roisin & Tadhg'],
+      ['Music & Sound','Chiptune Engine v1.0'],
+      ['QA Testing','Roisin, Tadhg & Dad'],
+      ['Special Thanks','You, the player!'],
+    ];
+    const vc=document.getElementById('victory-credits');vc.innerHTML='';
+    credits.forEach((c,i)=>{
+      const sec=document.createElement('div');sec.className='credits-section victory-credit-line';
+      sec.style.opacity='0';sec.style.transition='opacity 0.6s';
+      sec.innerHTML=`<div class="credits-label">${c[0]}</div><div class="credits-name">${c[1]}</div>`;
+      vc.appendChild(sec);
+      setTimeout(()=>{sec.style.opacity='1'},800+i*700);
+    });
+    const copy=document.createElement('div');copy.className='credits-copy victory-credit-line';
+    copy.style.opacity='0';copy.style.transition='opacity 0.6s';
+    copy.textContent='\u00A9 2026 Lewis Games Inc.';vc.appendChild(copy);
+    setTimeout(()=>{copy.style.opacity='1'},800+credits.length*700);
+    this.showScreen('victory');
+  }
   resetGame(){this.worldProgress=WORLDS.map(()=>({completed:false,score:0,time:0,bestTime:Infinity}));this.showWorldSelect()}
 
   // High score system

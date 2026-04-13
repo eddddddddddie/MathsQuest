@@ -366,4 +366,10 @@ input { font-family: var(--font-body); outline: none; }
 .credits-name { font-size: 10px; color: var(--text); }
 .credits-copy { font-size: 6px; color: var(--text-dim); margin-top: 8px; letter-spacing: 1px; }
 
+.victory-credits {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 2px solid rgba(255,204,0,0.2);
+}
+
 .hidden { display: none !important; }
