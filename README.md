@@ -1,9 +1,9 @@
 ```
- _____ _____ _____ _____ _____ _____    _____ _____ _____ _____ _____
-|     |  _  |_   _|  |  |   __|   __|  |     |  |  |   __|   __|_   _|
-| | | |     | | | |     |__   |__   |  |  |  |  |  |   __|__   | | |
-|_|_|_|__|__| |_| |__|__|_____|_____|  |__  _|_____|_____|_____| |_|
-                                          |__|
+ _____ _____ _____ _____ _____    _____ _____ _____ _____ _____
+|     |  _  |_   _|  |  |   __|  |     |  |  |   __|   __|_   _|
+| | | |     | | | |     |__   |  |  |  |  |  |   __|__   | | |
+|_|_|_|__|__| |_| |__|__|_____|  |__  _|_____|_____|_____| |_|
+                                    |__|
 ```
 
 ```
@@ -83,7 +83,6 @@ No frameworks. No bundlers. Just pixels.
 - **Stomp enemies** from above for bonus points
 - **Grab stars** for invincibility power-ups
 - **Solve maths challenges** when you find special items
-- **Beat the boss** guarding the exit door (3 stomps!)
 - **Complete all 10 worlds** to achieve VICTORY
 
 ---

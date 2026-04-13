@@ -191,7 +191,8 @@ class CharacterDesigner {
       if(o.hairStyle==='ponytail'){ctx.fillRect(ox+8*P,cy-4*P,3*P,2*P);ctx.fillRect(ox+10*P,cy-2*P,P,6*P);ctx.fillStyle='#E74C3C';ctx.fillRect(ox+9*P,cy-2*P,P,P)}
       if(o.hairStyle==='bun'){ctx.fillRect(ox+3*P,cy-7*P,4*P,2*P);ctx.fillRect(ox+4*P,cy-8*P,2*P,P)}}
     if(view!==2){
-      if(o.accessory&&o.accessory.includes('glasses')){ctx.fillStyle='#555';ctx.fillRect(ox+P,cy-2*P,3*P,3*P);ctx.fillRect(ox+6*P,cy-2*P,3*P,3*P);ctx.fillRect(ox+4*P,cy-P,2*P,P/2)}
+      if(o.accessory==='square-glasses'){ctx.fillStyle='#555';ctx.fillRect(ox+P,cy-2*P,3*P,3*P);ctx.fillRect(ox+6*P,cy-2*P,3*P,3*P);ctx.fillRect(ox+4*P,cy-P,2*P,P/2)}
+      if(o.accessory==='spectacles'){ctx.fillStyle='#222';ctx.fillRect(ox+P,cy-2*P,3*P,P/2);ctx.fillRect(ox+P,cy+P-P/2,3*P,P/2);ctx.fillRect(ox+P,cy-2*P,P/2,3*P);ctx.fillRect(ox+P+3*P-P/2,cy-2*P,P/2,3*P);ctx.fillRect(ox+6*P,cy-2*P,3*P,P/2);ctx.fillRect(ox+6*P,cy+P-P/2,3*P,P/2);ctx.fillRect(ox+6*P,cy-2*P,P/2,3*P);ctx.fillRect(ox+6*P+3*P-P/2,cy-2*P,P/2,3*P);ctx.fillRect(ox+4*P,cy-P,2*P,P/2);ctx.fillStyle='rgba(180,210,255,0.18)';ctx.fillRect(ox+P+P/2,cy-2*P+P/2,2*P,2*P);ctx.fillRect(ox+6*P+P/2,cy-2*P+P/2,2*P,2*P)}
       if(o.accessory==='earrings'){ctx.fillStyle='#F0C040';ctx.fillRect(ox-P/2,cy+P,P,P);ctx.fillRect(ox+9*P+P/2,cy+P,P,P)}
     }
     if(o.accessory==='headband'){ctx.fillStyle='#E74C3C';ctx.fillRect(ox,cy-3*P,10*P,P)}
@@ -907,7 +908,7 @@ class PlatformerEngine {
   mount(){this.container.innerHTML='';this.container.appendChild(this.canvas);this.resize();window.addEventListener('resize',()=>this.resize());window.addEventListener('keydown',this._onKey);window.addEventListener('keyup',this._onKey);this.canvas.focus()}
   unmount(){window.removeEventListener('keydown',this._onKey);window.removeEventListener('keyup',this._onKey);this.running=false}
   resize(){const r=this.container.getBoundingClientRect();const dpr=window.devicePixelRatio||1;this.W=r.width;this.H=r.height;this.canvas.width=this.W*dpr;this.canvas.height=this.H*dpr;this.canvas.style.width=this.W+'px';this.canvas.style.height=this.H+'px';this.ctx.setTransform(dpr,0,0,dpr,0,0);this.groundY=this.H-60}
-  _onKey(e){if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(e.key))e.preventDefault();const d=e.type==='keydown';if(e.key==='ArrowLeft'||e.key==='a')this.keys.left=d;if(e.key==='ArrowRight'||e.key==='d')this.keys.right=d;if(e.key==='ArrowUp'||e.key==='w')this.keys.up=d;if(e.key==='ArrowDown'||e.key==='s')this.keys.down=d;if(e.key===' ')this.keys.space=d}
+  _onKey(e){if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(e.key))e.preventDefault();const d=e.type==='keydown';if(e.key==='ArrowLeft'||e.key==='a')this.keys.left=d;if(e.key==='ArrowRight'||e.key==='d')this.keys.right=d;if(e.key==='ArrowUp'||e.key==='w'){if(d&&!this.keys.up)this.keys.upEdge=true;this.keys.up=d}if(e.key==='ArrowDown'||e.key==='s')this.keys.down=d;if(e.key===' ')this.keys.space=d}
 
   startWorld(wd,co){
     this.world=wd;this.foundItems=new Set();this.doorOpen=false;this.enteringDoor=false;
@@ -939,6 +940,8 @@ class PlatformerEngine {
 
   _update(){
     const p=this.player,w=this.world;if(this.enteringDoor)return;
+    // Consume edge-triggered jump (UP arrow) once per frame
+    const upJump=this.keys.upEdge;this.keys.upEdge=false;
     // Death animation
     if(p.dying){p.dyingTimer++;p.vy+=0.5;p.y+=p.vy;if(p.dyingTimer>70){p.dying=false;if(p.lives>0){const cp=this.checkpoint;const rx=cp&&cp.activated?cp.x:60;p.x=rx;p.y=this.groundY-50;p.vx=0;p.vy=0;p.onLadder=false;p.invincible=60}else{this.running=false;this.app.showGameOver()}}return}
     // Invincibility timers
@@ -959,8 +962,8 @@ class PlatformerEngine {
       if(touchingLadder){if(p.y<=touchingLadder.y-p.height){p.y=touchingLadder.y-p.height;p.onLadder=false;p.onGround=true}if(p.y+p.height>touchingLadder.y+touchingLadder.h){p.y=touchingLadder.y+touchingLadder.h-p.height;p.onLadder=false;p.onGround=true}}
     }else{
       const spd=5;if(this.keys.left){p.vx=-spd;p.facing=-1}else if(this.keys.right){p.vx=spd;p.facing=1}else{p.vx*=0.7;if(Math.abs(p.vx)<0.3)p.vx=0}
-      if(this.keys.space&&p.onGround){p.vy=-(w.jumpForce||14);p.onGround=false;sound.playJump()}
-      if(!this.keys.space&&p.vy<-4)p.vy*=0.85;
+      if((this.keys.space||upJump)&&p.onGround){p.vy=-(w.jumpForce||14);p.onGround=false;sound.playJump()}
+      if(!(this.keys.space||this.keys.up)&&p.vy<-4)p.vy*=0.85;
       p.vy+=(w.gravity||0.5);if(p.vy>14)p.vy=14;
       p.x+=p.vx;if(p.x<0){p.x=0;p.vx=0}if(p.x>w.worldWidth-p.width){p.x=w.worldWidth-p.width;p.vx=0}
       const prevBot=p.y+p.height;p.y+=p.vy;p.onGround=false;
@@ -1108,8 +1111,22 @@ class PlatformerEngine {
     // Door fade
     if(this.enteringDoor){ctx.fillStyle=`rgba(0,0,0,${Math.min(1,this.frame%1000*0.03)})`;ctx.fillRect(0,cam.y,W,H)}
     ctx.restore();
-    // Controls hint (outside camera transform)
-    if(this.frame<180){ctx.globalAlpha=Math.max(0,1-this.frame/180);ctx.fillStyle='rgba(0,0,0,0.7)';const bw=380,bh=40,bx=W/2-bw/2,by=H-100;ctx.fillRect(bx,by,bw,bh);ctx.strokeStyle='#444466';ctx.lineWidth=2;ctx.strokeRect(bx,by,bw,bh);ctx.fillStyle='#ffcc00';ctx.font='7px "Press Start 2P",monospace';ctx.textAlign='center';ctx.fillText('ARROWS:MOVE  SPACE:JUMP  \u{2191}\u{2193}:CLIMB  STOMP ENEMIES!',W/2,by+24);ctx.textAlign='start';ctx.globalAlpha=1}
+    // Controls hint (outside camera transform) - prominent flash at top for 4 seconds
+    if(this.frame<240){
+      const fadeIn=Math.min(1,this.frame/15);const fadeOut=Math.max(0,1-Math.max(0,this.frame-210)/30);
+      ctx.globalAlpha=fadeIn*fadeOut;
+      const bw=Math.min(W-40,620),bh=64,bx=W/2-bw/2,by=18;
+      ctx.fillStyle='rgba(10,10,30,0.92)';ctx.fillRect(bx,by,bw,bh);
+      const flash=Math.floor(this.frame/12)%2;
+      ctx.strokeStyle=flash?'#ffcc00':'#ff6688';ctx.lineWidth=4;ctx.strokeRect(bx,by,bw,bh);
+      ctx.fillStyle=flash?'#ffcc00':'#ff6688';ctx.font='11px "Press Start 2P",monospace';ctx.textAlign='center';
+      ctx.fillText('* CONTROLS *',W/2,by+20);
+      ctx.fillStyle='#fff';ctx.font='9px "Press Start 2P",monospace';
+      ctx.fillText('ARROWS: MOVE   SPACE / UP: JUMP',W/2,by+38);
+      ctx.fillStyle='#88ddff';ctx.font='8px "Press Start 2P",monospace';
+      ctx.fillText('\u{2191}\u{2193} ON LADDER: CLIMB   -   STOMP ENEMIES FROM ABOVE!',W/2,by+55);
+      ctx.textAlign='start';ctx.globalAlpha=1;
+    }
   }
 
   _drawPlayer(ctx,cam){
@@ -1143,7 +1160,8 @@ class PlatformerEngine {
     ctx.fillStyle=hair;const hs=opts.hairStyle;
     if(hs!=='bald'){ctx.fillRect(ox+3,-1,24,5);ctx.fillRect(ox+5,-3,20,4);ctx.fillStyle=lighten(hair,20);ctx.fillRect(ox+8,-2,12,2);ctx.fillStyle=hair;
       if(hs==='short'){ctx.fillRect(ox+2,0,3,8);ctx.fillRect(ox+25,0,3,8)}if(hs==='medium'){ctx.fillRect(ox+1,0,4,14);ctx.fillRect(ox+25,0,4,14)}if(hs==='long'){ctx.fillRect(ox,0,4,20);ctx.fillRect(ox+26,0,4,20)}if(hs==='curly'){ctx.fillRect(ox-1,-1,5,14);ctx.fillRect(ox+26,-1,5,14);ctx.fillRect(ox+1,-4,28,4)}if(hs==='afro'){ctx.fillRect(ox-2,-6,34,10);ctx.fillRect(ox-3,-2,6,10);ctx.fillRect(ox+27,-2,6,10)}if(hs==='ponytail'){ctx.fillRect(ox+22,-1,8,5);ctx.fillRect(ox+26,2,4,14)}if(hs==='bun'){ctx.fillRect(ox+8,-8,14,6)}}
-    if(opts.accessory&&opts.accessory.includes('glasses')){ctx.fillStyle='#555';ctx.fillRect(ox+7,6,7,7);ctx.fillRect(ox+16,6,7,7);ctx.fillRect(ox+14,8,2,2)}
+    if(opts.accessory==='square-glasses'){ctx.fillStyle='#555';ctx.fillRect(ox+7,6,7,7);ctx.fillRect(ox+16,6,7,7);ctx.fillRect(ox+14,8,2,2)}
+    if(opts.accessory==='spectacles'){ctx.fillStyle='#222';ctx.fillRect(ox+7,6,7,1);ctx.fillRect(ox+7,12,7,1);ctx.fillRect(ox+7,6,1,7);ctx.fillRect(ox+13,6,1,7);ctx.fillRect(ox+16,6,7,1);ctx.fillRect(ox+16,12,7,1);ctx.fillRect(ox+16,6,1,7);ctx.fillRect(ox+22,6,1,7);ctx.fillRect(ox+14,8,2,1);ctx.fillStyle='rgba(180,210,255,0.25)';ctx.fillRect(ox+8,7,5,5);ctx.fillRect(ox+17,7,5,5)}
     if(opts.accessory==='beard'){ctx.fillStyle=darken(hair,10);ctx.fillRect(ox+8,13,14,3);ctx.fillRect(ox+10,16,10,2)}
     // World costume overlay
     const wid=this.world?.id;
@@ -1310,13 +1328,13 @@ class App {
     {key:'hairColor',label:'HAIR COLOR',vals:['#2C1810','#5C3317','#8B5E3C','#C44E2E','#DAA520','#F0E68C','#E8E8E8','#4169E1','#9B59B6','#E75480'],names:['BLACK','DK BROWN','BROWN','RED','GOLDEN','BLONDE','PLATINUM','BLUE','PURPLE','PINK'],color:true},
     {key:'eyeColor',label:'EYE COLOR',vals:['#634E34','#8B7355','#2E8B57','#4682B4','#708090','#B8860B'],names:['BROWN','HAZEL','GREEN','BLUE','GRAY','AMBER'],color:true},
     {key:'clothingColor',label:'SHIRT COLOR',vals:['#E74C3C','#3498DB','#2ECC71','#9B59B6','#F39C12','#1ABC9C','#2C3E50','#ECF0F1','#E91E63','#333333'],names:['RED','BLUE','GREEN','PURPLE','ORANGE','TEAL','NAVY','WHITE','PINK','BLACK'],color:true},
-    {key:'accessory',label:'ACCESSORY',vals:['none','square-glasses','earrings','headband','beard'],names:['NONE','GLASSES','EARRINGS','HEADBAND','BEARD']},
+    {key:'accessory',label:'ACCESSORY',vals:['none','square-glasses','spectacles','earrings','headband','beard'],names:['NONE','SUNGLASSES','SPECTACLES','EARRINGS','HEADBAND','BEARD']},
   ]}
 
   _charPresets(){return[
     {name:'ROISIN',opts:{skinTone:'#FDE7C8',hairStyle:'long',hairColor:'#5C3317',clothing:'tshirt',clothingColor:'#E91E63',accessory:'none',eyeColor:'#4682B4'}},
     {name:'TADHG',opts:{skinTone:'#FDE7C8',hairStyle:'short',hairColor:'#5C3317',clothing:'tshirt',clothingColor:'#F39C12',accessory:'none',eyeColor:'#4682B4'}},
-    {name:'DAD',opts:{skinTone:'#F5D0A9',hairStyle:'short',hairColor:'#5C3317',clothing:'jacket',clothingColor:'#2C3E50',accessory:'beard',eyeColor:'#4682B4'}},
+    {name:'DAD',opts:{skinTone:'#F5D0A9',hairStyle:'short',hairColor:'#5C3317',clothing:'jacket',clothingColor:'#2C3E50',accessory:'spectacles',eyeColor:'#4682B4'}},
     {name:'PIRATE',opts:{skinTone:'#C07840',hairStyle:'bald',hairColor:'#2C1810',clothing:'tank',clothingColor:'#333333',accessory:'earrings',eyeColor:'#634E34'}},
     {name:'PRINCESS',opts:{skinTone:'#F5D0A9',hairStyle:'ponytail',hairColor:'#DAA520',clothing:'sweater',clothingColor:'#E91E63',accessory:'headband',eyeColor:'#2E8B57'}},
     {name:'ROBOT',opts:{skinTone:'#9A5B2F',hairStyle:'afro',hairColor:'#4169E1',clothing:'hoodie',clothingColor:'#1ABC9C',accessory:'square-glasses',eyeColor:'#708090'}},
@@ -1326,7 +1344,7 @@ class App {
     const o=this.designer.options;
     const hairVal={'short':3,'medium':5,'long':7,'curly':8,'afro':9,'ponytail':6,'bun':4,'bald':1};
     const clothVal={'tshirt':3,'hoodie':6,'jacket':8,'tank':2,'sweater':5};
-    const accVal={'none':1,'round-glasses':7,'square-glasses':6,'earrings':4,'headband':5,'cat-glasses':8};
+    const accVal={'none':1,'round-glasses':7,'square-glasses':6,'spectacles':7,'earrings':4,'headband':5,'cat-glasses':8};
     const faceVal={'oval':5,'round':6,'square':7,'heart':4};
     return{
       STR:faceVal[o.faceShape]||5,SPD:10-(hairVal[o.hairStyle]||5),
